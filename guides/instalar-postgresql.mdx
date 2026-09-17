@@ -1,5 +1,5 @@
 ---
-title: "Instalar PostgreSQL en Windows y Fedora Linux"
+title: "Cómo instalar PostgreSQL en Windows y Fedora Linux"
 sidebarTitle: "Instalar PostgreSQL"
 description: "Guía completa para instalar PostgreSQL en Windows y Fedora. Incluye inicialización del servicio, solución de errores y configuración de pg_hba.conf."
 ---
@@ -115,11 +115,5 @@ Si durante la instalación o el inicio del servicio encuentras algún error, con
 
   ```bash
   sudo nano /var/lib/pgsql/data/pg_hba.conf
-  ```
-
-  Tras realizar los cambios, recuerda reiniciar el servicio para que se apliquen:
-
-  ```bash
-  sudo systemctl restart postgresql
   ```
 </Accordion>

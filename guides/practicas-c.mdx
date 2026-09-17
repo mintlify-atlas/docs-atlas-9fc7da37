@@ -144,7 +144,6 @@ scanf("%d", &variable);
 |---------------|------------------------------------------|
 | `stdio.h`     | Funciones de entrada y salida (`printf`, `scanf`) |
 | `stdlib.h`    | Funciones de utilidad general (`malloc`, `free`, `exit`) |
-| `math.h`      | Funciones matemáticas (`sqrtf`, `powf`, `fabs`) |
 
 ---
 
@@ -183,8 +182,7 @@ Este programa le pide al usuario dos números enteros, calcula su suma y muestra
 
   <Step title="Compila y ejecuta">
     ```bash
-    gcc Suma.c -o suma
-    ./suma
+    gcc Suma.c -o suma && ./suma
     ```
   </Step>
 </Steps>
@@ -257,8 +255,7 @@ Bubble Sort (ordenamiento burbuja) es uno de los algoritmos de ordenamiento más
 
   <Step title="Compila y ejecuta">
     ```bash
-    gcc Bubble.c -o bubble
-    ./bubble
+    gcc Bubble.c -o bubble && ./bubble
     ```
   </Step>
 </Steps>
@@ -336,8 +333,7 @@ Este programa solicita al usuario los dos catetos de un triángulo rectángulo y
     A diferencia de las prácticas anteriores, este programa usa funciones de `math.h`, por lo que es necesario enlazar la librería matemática con la bandera `-lm`:
 
     ```bash
-    gcc Triangulo.c -o triangulo -lm
-    ./triangulo
+    gcc Triangulo.c -o triangulo -lm && ./triangulo
     ```
   </Step>
 </Steps>

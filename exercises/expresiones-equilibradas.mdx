@@ -1,7 +1,7 @@
 ---
-title: "Expresiones Equilibradas: valida paréntesis, llaves y corchetes en PHP"
+title: "Expresiones Equilibradas: verifica delimitadores en PHP"
 sidebarTitle: "Expresiones Equilibradas"
-description: "Verifica si los paréntesis, llaves y corchetes de una expresión están correctamente equilibrados en PHP usando un enfoque de comparación por posición espejo."
+description: "Verifica si paréntesis, llaves y corchetes de una expresión están equilibrados en PHP usando comparación simétrica por posición espejo entre delimitadores."
 ---
 
 Este ejercicio introduce uno de los problemas clásicos del análisis de expresiones: determinar si los delimitadores de agrupación —paréntesis `()`, llaves `{}` y corchetes `[]`— están correctamente abiertos y cerrados en una cadena de texto. Es un problema fundamental en la construcción de compiladores, intérpretes y editores de código. El reto consiste en que los tres tipos de delimitadores tienen la misma prioridad; ninguno es más importante que otro.
@@ -13,7 +13,7 @@ Este ejercicio introduce uno de los problemas clásicos del análisis de expresi
   - Equilibrado significa que estos delimitadores se abren y cierran en orden y de forma correcta.
   - Paréntesis, llaves y corchetes son igual de prioritarios; no hay uno más importante que otro.
   - **Expresión balanceada:** `{ [ a * ( c + d ) ] - 5 }`
-  - **Expresión no balanceada:** `{ a * ( c + d ] - 5 }`
+  - **Expresión no balanceada:** `{ a * ( c + d ) ] - 5 }`
 </Note>
 
 ## Enfoque de Solución

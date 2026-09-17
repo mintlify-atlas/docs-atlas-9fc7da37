@@ -1,10 +1,10 @@
 ---
-title: "Contando Palabras: cuenta repeticiones de cada palabra en PHP"
+title: "Contando Palabras: cuenta repeticiones por palabra en PHP"
 sidebarTitle: "Contando Palabras"
-description: "Cuenta cuántas veces aparece cada palabra en un texto ignorando puntuación y mayúsculas, sin usar funciones automáticas de conteo del lenguaje."
+description: "Cuenta cuántas veces aparece cada palabra en un texto ignorando puntuación, sin usar funciones automáticas de conteo del lenguaje como array_count_values."
 ---
 
-Este ejercicio trabaja el procesamiento de cadenas de texto a nivel léxico: dado un texto libre, el programa debe identificar cada palabra única y contabilizar cuántas veces aparece. El desafío radica en que los signos de puntuación deben ignorarse, el conteo debe ser insensible a mayúsculas y minúsculas, y **no está permitido usar funciones del lenguaje** que resuelvan el conteo de forma automática como `array_count_values`.
+Este ejercicio trabaja el procesamiento de cadenas de texto a nivel léxico: dado un texto libre, el programa debe identificar cada palabra única y contabilizar cuántas veces aparece. El desafío radica en que los signos de puntuación deben ignorarse y **no está permitido usar funciones del lenguaje** que resuelvan el conteo de forma automática como `array_count_values`.
 
 ## Enunciado
 
@@ -17,7 +17,7 @@ Este ejercicio trabaja el procesamiento de cadenas de texto a nivel léxico: dad
 
 ## Enfoque de Solución
 
-La función primero limpia la cadena de entrada reemplazando todos los caracteres de puntuación por una cadena vacía mediante `str_replace()`. A continuación, divide el texto en un array de palabras usando `explode()` con el espacio como separador. Finalmente, recorre ese array con `foreach` y actualiza manualmente un diccionario asociativo: si la palabra ya existe como clave, incrementa su contador; si no, la inicializa en 1.
+La función primero limpia la cadena de entrada reemplazando todos los caracteres de puntuación por una cadena vacía mediante `str_replace()`. A continuación, divide el texto en un array de palabras usando `explode()` con el espacio como separador. Finalmente, recorre ese array con `foreach` y actualiza manualmente un diccionario asociativo: si la palabra ya existe como clave, incrementa su contador con `+= 1`; si no, la inicializa en 1.
 
 ## Código Fuente
 
