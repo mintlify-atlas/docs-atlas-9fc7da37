@@ -1,0 +1,251 @@
+---
+title: "Instalar XAMPP en Windows y LAMPP en Fedora Linux"
+sidebarTitle: "Instalar LAMPP"
+description: "Configura XAMPP en Windows o LAMPP en Fedora con Apache, MariaDB y PHP. Incluye configuración adicional para PHP-FPM y módulos de Apache."
+---
+
+XAMPP es la distribución de desarrollo web con PHP más popular del mundo. Es completamente gratuita y fácil de instalar, e incluye **Apache, MariaDB, PHP y Perl** en un único paquete. En esta guía aprenderás a instalarlo en Windows bajo el nombre XAMPP, y en Fedora Linux donde se conoce como LAMPP, configurando cada componente paso a paso.
+
+<Tabs>
+  <Tab title="Windows">
+    ## Instalar XAMPP en Windows
+
+    Descarga e instala XAMPP según la versión de tu sistema operativo Windows desde el sitio oficial:
+
+    👉 [Download XAMPP for Windows](https://www.apachefriends.org/es/index.html)
+
+    Una vez descargado el instalador, ábrelo y sigue las instrucciones del asistente. Si no deseas entrar en problemas de configuración, simplemente acepta todas las opciones predeterminadas haciendo clic en **Siguiente** en cada pantalla.
+  </Tab>
+
+  <Tab title="Fedora Linux">
+    ## Instalar LAMPP en Fedora Linux
+
+    <Steps>
+      <Step title="Actualizar el sistema">
+        Abre una terminal y ejecuta el siguiente comando para actualizar los repositorios y paquetes antes de comenzar la instalación:
+
+        ```bash
+        sudo dnf update
+        ```
+      </Step>
+
+      <Step title="Instalar Apache">
+        Instala el servidor web Apache:
+
+        ```bash
+        sudo dnf install httpd
+        ```
+
+        Inicia Apache y habilítalo para que arranque automáticamente al iniciar el sistema:
+
+        ```bash
+        sudo systemctl start httpd
+        sudo systemctl enable httpd
+        ```
+
+        Verifica que el servicio esté corriendo correctamente:
+
+        ```bash
+        sudo systemctl status httpd
+        ```
+
+        Abre un navegador y dirígete a `http://localhost`. Deberías ver la página predeterminada de Apache.
+      </Step>
+
+      <Step title="Instalar MariaDB">
+        Fedora utiliza MariaDB en lugar de MySQL, pero es completamente compatible. Instálalo con:
+
+        ```bash
+        sudo dnf install mariadb-server mariadb
+        ```
+
+        Inicia y habilita el servicio de MariaDB:
+
+        ```bash
+        sudo systemctl start mariadb
+        sudo systemctl enable mariadb
+        ```
+
+        Asegura la instalación ejecutando el asistente de seguridad:
+
+        ```bash
+        sudo mysql_secure_installation
+        ```
+
+        Sigue las instrucciones para establecer una contraseña segura y configurar las opciones de seguridad recomendadas.
+      </Step>
+
+      <Step title="Instalar PHP">
+        Instala PHP junto con el módulo necesario para conectarse a MariaDB:
+
+        ```bash
+        sudo dnf install php php-mysqlnd
+        ```
+
+        Reinicia Apache para que cargue el módulo de PHP:
+
+        ```bash
+        sudo systemctl restart httpd
+        ```
+
+        Verifica la versión de PHP instalada:
+
+        ```bash
+        php -v
+        ```
+      </Step>
+
+      <Step title="Configurar Apache para priorizar PHP">
+        Abre el archivo de configuración de Apache para PHP:
+
+        ```bash
+        sudo nano /etc/httpd/conf.d/php.conf
+        ```
+
+        Asegúrate de que `index.php` esté listado antes que otros archivos de índice:
+
+        ```bash
+        DirectoryIndex index.php index.html
+        ```
+      </Step>
+
+      <Step title="Reiniciar Apache">
+        Reinicia el servicio Apache para que se apliquen todos los cambios realizados:
+
+        ```bash
+        sudo systemctl restart httpd
+        ```
+      </Step>
+
+      <Step title="Probar PHP con phpinfo()">
+        Crea un archivo de prueba PHP en el directorio raíz del servidor web:
+
+        ```bash
+        sudo nano /var/www/html/info.php
+        ```
+
+        Añade el siguiente código dentro del archivo:
+
+        ```bash
+        <?php
+        phpinfo();
+        ?>
+        ```
+
+        Guarda el archivo y abre `http://localhost/info.php` en tu navegador para verificar que PHP esté funcionando correctamente.
+      </Step>
+
+      <Step title="Instalar phpMyAdmin (Opcional)">
+        Si necesitas gestionar las bases de datos de MariaDB desde una interfaz gráfica web, puedes instalar phpMyAdmin:
+
+        ```bash
+        sudo dnf install phpMyAdmin
+        ```
+
+        Una vez instalado, reinicia Apache y accede a `http://localhost/phpmyadmin`.
+      </Step>
+
+      <Step title="Habilitar mod_rewrite (Opcional)">
+        Si necesitas habilitar el módulo `mod_rewrite` para el uso de URLs amigables en tus proyectos:
+
+        ```bash
+        sudo dnf install mod_rewrite
+        sudo systemctl restart httpd
+        ```
+      </Step>
+
+      <Step title="Configurar el Firewall">
+        Permite el tráfico HTTP y HTTPS a través del firewall de Fedora para que tu servidor sea accesible:
+
+        ```bash
+        sudo firewall-cmd --permanent --add-service=http
+        sudo firewall-cmd --permanent --add-service=https
+        sudo firewall-cmd --reload
+        ```
+      </Step>
+
+      <Step title="Eliminar el archivo de prueba PHP">
+        Después de verificar que PHP funciona correctamente, elimina el archivo de prueba por razones de seguridad:
+
+        ```bash
+        sudo rm /var/www/html/info.php
+        ```
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Configuración Adicional
+
+Si después de la instalación los archivos `.php` no se ejecutan correctamente en el navegador, puede ser necesario instalar y configurar el módulo PHP para Apache de forma explícita.
+
+<Warning>
+  Esta configuración puede ser necesaria si los archivos PHP no se ejecutan y el navegador los descarga o muestra el código en texto plano. Sigue estos pasos solo si experimentas ese problema.
+</Warning>
+
+### 1. Instalar el módulo PHP para Apache
+
+En Fedora, el módulo de PHP para Apache puede no instalarse automáticamente. Ejecuta el siguiente comando para asegurarte de tenerlo todo:
+
+```bash
+sudo dnf install php php-common php-cli php-fpm mod_php
+```
+
+### 2. Reiniciar Apache
+
+Una vez instalado el módulo, reinicia Apache para que los cambios surtan efecto:
+
+```bash
+sudo systemctl restart httpd
+```
+
+### 3. Verificar el archivo de configuración de Apache
+
+Abre el archivo de configuración principal de Apache y asegúrate de que la siguiente línea esté presente y no comentada. Si no la encuentras, agrégala debajo de las otras líneas `AddType`:
+
+```bash
+sudo nano /etc/httpd/conf/httpd.conf
+```
+
+```bash
+AddType application/x-httpd-php .php
+```
+
+### 4. Configurar PHP-FPM con Apache
+
+Si has instalado PHP-FPM (FastCGI Process Manager) para manejar PHP, verifica que el servicio esté instalado y corriendo:
+
+```bash
+sudo dnf install php-fpm
+```
+
+```bash
+sudo systemctl start php-fpm
+sudo systemctl enable php-fpm
+```
+
+Edita el archivo de configuración de Apache (`httpd.conf`) y añade el siguiente bloque si no está presente. La parte `\.php$` le indica a Apache que solo los archivos `.php` sean manejados por PHP-FPM:
+
+```bash
+<FilesMatch "\.php$">
+      SetHandler "proxy:unix:/run/php-fpm/www.sock|fcgi://localhost/"
+</FilesMatch>
+```
+
+### Notas sobre DirectoryIndex
+
+Para priorizar el procesamiento de archivos `.php`, puedes usar esta configuración:
+
+```bash
+<IfModule dir_module>
+  DirectoryIndex index.php index.html
+</IfModule>
+```
+
+Si lo anterior te genera problemas con archivos `.html`, puedes dejarlo de la siguiente manera. Esto seguirá permitiendo manejar tanto archivos `.php` como `.html`:
+
+```bash
+<IfModule dir_module>
+  DirectoryIndex index.html
+</IfModule>
+```

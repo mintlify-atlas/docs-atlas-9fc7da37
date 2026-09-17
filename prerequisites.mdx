@@ -1,0 +1,193 @@
+---
+title: "Configura tu entorno de desarrollo para StudyCodeMatu"
+sidebarTitle: "Requisitos Previos"
+description: "Todo lo que necesitas antes de empezar: editor de código, lenguaje de programación y entorno de ejecución para C#, PHP y C."
+---
+
+Antes de ejecutar cualquier ejercicio de StudyCodeMatu, necesitas tener tu entorno de desarrollo preparado. No se requiere un setup complejo: con un editor de texto, el runtime del lenguaje que vayas a usar y Git para descargar el repositorio, estarás listo para empezar a picar código. Esta página te guía por cada herramienta necesaria y te muestra cómo ejecutar tus primeros archivos.
+
+## Editor de código
+
+El primer paso es contar con un editor donde escribir y explorar el código. Cualquiera de las siguientes opciones funciona perfectamente con los archivos `.cs`, `.php` y `.c` del repositorio:
+
+| Editor | Notas |
+|---|---|
+| **Visual Studio Code** | Recomendado. Ligero, con extensiones para C#, PHP y C. Gratuito y multiplataforma. |
+| **Sublime Text** | Rápido y minimalista. Ideal si prefieres un entorno sin distracciones. |
+| **Vim** | Para quienes prefieren trabajar completamente desde la terminal. |
+
+<Tip>
+  Si usas **Visual Studio Code**, instala las extensiones **C# Dev Kit** (de Microsoft) y **PHP Intelephense** para obtener autocompletado, resaltado de sintaxis y detección de errores en tiempo real.
+</Tip>
+
+## Runtime por lenguaje
+
+Dependiendo de qué sección del repositorio quieras explorar, necesitarás instalar el runtime correspondiente. No es necesario instalarlos todos; comienza por el lenguaje que más te interese.
+
+### C# — .NET SDK
+
+Los ejercicios lógicos en C# (como `BatallaPokemon.cs` o `QuickSort.cs`) requieren el **SDK de .NET**. Descárgalo desde [dotnet.microsoft.com](https://dotnet.microsoft.com/download) e instala la versión LTS más reciente.
+
+Para verificar que la instalación fue exitosa, ejecuta en tu terminal:
+
+```bash
+dotnet --version
+```
+
+### PHP — PHP CLI
+
+Los ejercicios en PHP (como `Palindromo.php`) se ejecutan directamente desde la línea de comandos usando la **PHP CLI**. También puedes instalar **LAMPP / XAMPP** si necesitas un entorno web completo.
+
+- **Linux (apt):** `sudo apt install php`
+- **macOS (Homebrew):** `brew install php`
+- **Windows o entorno web completo:** consulta la [guía de instalación de LAMPP](/guides/instalar-lampp)
+
+Para verificar tu instalación:
+
+```bash
+php --version
+```
+
+### C — Compilador GCC
+
+Las prácticas de estructuras de datos (como `Bubble.c`) se compilan con **GCC**, el compilador de C más usado en entornos académicos y Unix.
+
+- **Linux (apt):** `sudo apt install gcc`
+- **macOS:** `xcode-select --install`
+- **Windows:** instala [MinGW-w64](https://www.mingw-w64.org/) o usa el subsistema WSL.
+
+Para verificar tu instalación:
+
+```bash
+gcc --version
+```
+
+## Git para clonar el repositorio
+
+Necesitarás **Git** para descargar el repositorio de StudyCodeMatu en tu máquina local. Si aún no lo tienes instalado, consulta la [guía de instalación de Git](/guides/instalar-git) incluida en este sitio.
+
+Para verificar que Git está disponible:
+
+```bash
+git --version
+```
+
+---
+
+## Cómo empezar paso a paso
+
+<Steps>
+  <Step title="Instala un editor de código">
+    Descarga e instala **Visual Studio Code** desde [code.visualstudio.com](https://code.visualstudio.com/), o el editor de tu preferencia. Agrega las extensiones para los lenguajes que vayas a usar.
+  </Step>
+  <Step title="Instala el runtime del lenguaje que necesites">
+    Según la sección del repositorio que quieras explorar, instala el **.NET SDK** (C#), la **PHP CLI** (PHP), o el compilador **GCC** (C). No es necesario instalar los tres; con uno basta para comenzar.
+  </Step>
+  <Step title="Clona o descarga el repositorio">
+    Abre tu terminal, navega a la carpeta donde guardas tus proyectos y clona StudyCodeMatu con Git:
+
+    ```bash
+    git clone https://github.com/soymatudev/StudyCodeMatu.git
+    cd StudyCodeMatu
+    ```
+
+    Si prefieres no usar Git, también puedes descargar el ZIP directamente desde GitHub usando el botón **Code → Download ZIP**.
+  </Step>
+  <Step title="Elige un ejercicio y ejecútalo">
+    Navega a la carpeta del ejercicio que quieras probar y ejecútalo con el comando correspondiente a su lenguaje. ¡Consulta la sección siguiente para ver cómo hacerlo!
+  </Step>
+</Steps>
+
+---
+
+## Ejecutar ejercicios por lenguaje
+
+<Tabs>
+  <Tab title="C#">
+    Los archivos `.cs` de StudyCodeMatu son scripts autocontenidos. Puedes ejecutarlos usando `dotnet-script` para una experiencia directa, o compilarlos con `dotnet run` dentro de un proyecto .NET.
+
+    **Opción 1 — Ejecutar directamente con dotnet-script:**
+
+    ```bash
+    dotnet script BatallaPokemon.cs
+    ```
+
+    **Opción 2 — Compilar y ejecutar con dotnet run:**
+
+    Desde la raíz de un proyecto .NET que incluya el archivo:
+
+    ```bash
+    dotnet run
+    ```
+
+    **Ejemplo de salida para `BatallaPokemon.cs`:**
+
+    ```
+    El Ataque No es Muy Efectivo
+    Daño realizado: 25
+    El Ataque No es Muy Efectivo
+    Daño realizado: 25
+    El Ataque Es Muy Efectivo
+    Daño realizado: 100
+    ```
+
+    <Tip>
+      Puedes instalar `dotnet-script` globalmente con `dotnet tool install -g dotnet-script` para ejecutar cualquier archivo `.cs` de forma directa sin crear un proyecto.
+    </Tip>
+  </Tab>
+  <Tab title="PHP">
+    Los archivos `.php` se ejecutan directamente con la PHP CLI. Navega hasta la carpeta del ejercicio y usa el comando `php` seguido del nombre del archivo.
+
+    **Ejecutar `Palindromo.php`:**
+
+    ```bash
+    cd Ejercicios_Logicos/Palindromo
+    php Palindromo.php
+    ```
+
+    **Salida esperada:**
+
+    ```
+    Verdadero
+    Verdadero
+    Falso
+    ```
+
+    **Ejecutar cualquier archivo PHP del repositorio:**
+
+    ```bash
+    php NombreDelArchivo.php
+    ```
+
+    <Note>
+      Si ves un error de módulo faltante (como `php: command not found`), asegúrate de haber instalado la PHP CLI correctamente. En entornos web puedes usar LAMPP; consulta la [guía de instalación](/guides/instalar-lampp).
+    </Note>
+  </Tab>
+  <Tab title="C">
+    Los archivos `.c` de las prácticas de estructura de datos se compilan con GCC y luego se ejecutan como binarios. El proceso requiere dos pasos: compilar y ejecutar.
+
+    **Compilar y ejecutar `Bubble.c`:**
+
+    ```bash
+    cd Materias/Estructura_Datos/Practicas_C/Bubble
+    gcc Bubble.c -o bubble && ./bubble
+    ```
+
+    **Estructura del comando explicada:**
+
+    ```bash
+    gcc Bubble.c -o bubble   # Compila Bubble.c y genera el ejecutable "bubble"
+    ./bubble                 # Ejecuta el binario resultante
+    ```
+
+    **Compilar cualquier práctica de C con salida personalizada:**
+
+    ```bash
+    gcc NombreArchivo.c -o nombre_salida && ./nombre_salida
+    ```
+
+    <Tip>
+      Usa la bandera `-Wall` al compilar para habilitar todos los avisos del compilador. Es una buena práctica que te ayuda a detectar errores potenciales desde el principio: `gcc -Wall Bubble.c -o bubble`.
+    </Tip>
+  </Tab>
+</Tabs>

@@ -1,0 +1,96 @@
+---
+title: "Triángulo de Pascal: dibuja el triángulo dado el tamaño en C#"
+sidebarTitle: "Triángulo de Pascal"
+description: "Ejercicio en C# que construye y muestra el Triángulo de Pascal de un tamaño dado, calculando cada celda como la suma de las dos celdas inmediatamente superiores."
+---
+
+El Triángulo de Pascal es una de las estructuras matemáticas más conocidas y elegantes: cada número es la suma de los dos que tiene encima. Más allá de su belleza matemática, esta construcción reaparece en combinatoria, probabilidad y en el coeficiente binomial. Implementarlo en código es un ejercicio excelente para practicar **matrices bidimensionales** y lógica de índices anidados.
+
+## Enunciado
+
+<Note>
+Crea una función que sea capaz de dibujar el "Triángulo de Pascal" indicándole únicamente el tamaño del lado.
+
+Puedes ver rápidamente cómo se calcula el triángulo en la siguiente animación:  
+[Triángulo de Pascal – Wikimedia Commons](https://commons.wikimedia.org/wiki/File:PascalTriangleAnimated2.gif)
+</Note>
+
+## Enfoque de Solución
+
+La solución crea una matriz cuadrada `int[n, n]` y la rellena fila a fila. El primer y último elemento de cada fila `i` se inicializan a `1` (los bordes del triángulo siempre son 1). Los elementos intermedios en la posición `[i, j]` se calculan como `a[i-1, j-1] + a[i-1, j]`, es decir, la suma de las dos celdas inmediatamente superiores. Para la impresión se añade un relleno de espacios proporcional a la fila (`lon - i` espacios), de modo que los números queden centrados y el triángulo tenga la forma visual esperada.
+
+## Código Fuente
+
+```csharp title="TrianguloPascal.cs"
+/*
+  Crea una función que sea capaz de dibujar el "Triángulo de Pascal"
+  indicándole únicamente el tamaño del lado.
+ 
+  - Aquí puedes ver rápidamente cómo se calcula el triángulo:
+    https://commons.wikimedia.org/wiki/File:PascalTriangleAnimated2.gif
+*/
+using System;
+
+public class TrianguloPascal
+{
+    public static void Main(string[] args)
+    {
+        pas(5);
+    }
+    
+    static void pas(int lon) {
+       int[,] a = new int[5, 5];
+       
+        for(int i = 0; i < lon; i++) {
+            a[i,0] = 1;
+            for(int j = 1; j < i; j++) {
+                a[i,j] = a[i-1,j-1] + a[i-1,j];
+            } 
+            a[i,i] = 1;
+        }
+    
+        for(int i = 0; i < lon; i++) {
+            Console.Write(new string(' ', lon - i));
+            for(int j = 0; j <= i; j++) {
+               Console.Write(a[i,j] + " ");
+            } 
+            Console.WriteLine("");
+        }
+    }
+}
+```
+
+Con `pas(5)` la salida por consola es:
+
+```
+     1 
+    1 1 
+   1 2 1 
+  1 3 3 1 
+ 1 4 6 4 1 
+```
+
+## Cómo Ejecutar
+
+<Steps>
+  <Step title="Instala el SDK de .NET">
+    Descarga e instala el [SDK de .NET](https://dotnet.microsoft.com/download) (versión 6 o superior).
+  </Step>
+  <Step title="Guarda el archivo">
+    Crea un archivo llamado `TrianguloPascal.cs` y pega el código fuente.
+  </Step>
+  <Step title="Compila y ejecuta">
+    Desde la terminal, ejecuta:
+    ```bash
+    dotnet script TrianguloPascal.cs
+    ```
+    O compila con `csc TrianguloPascal.cs` y ejecuta con `mono TrianguloPascal.exe`.
+  </Step>
+</Steps>
+
+## Conceptos Clave
+
+- **Matriz bidimensional `int[,]`** — almacena todos los valores del triángulo para poder referenciar filas anteriores al calcular cada celda.
+- **Relación de recurrencia** — `a[i,j] = a[i-1,j-1] + a[i-1,j]` es la regla que define el triángulo: cada valor es la suma de sus dos vecinos superiores.
+- **Relleno con espacios** — `new string(' ', lon - i)` genera el sangrado necesario en cada fila para producir la forma piramidal en consola.
+- **Bucles anidados** — un bucle exterior recorre las filas y uno interior los elementos de cada fila, patrón habitual en el procesado de estructuras triangulares.

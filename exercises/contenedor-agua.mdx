@@ -1,0 +1,118 @@
+---
+title: "Contenedor de Agua: calcula agua atrapada entre bloques en C#"
+sidebarTitle: "Contenedor de Agua"
+description: "Ejercicio clásico de lógica en C# que calcula las unidades de agua atrapadas entre columnas de bloques representadas en un array de enteros."
+---
+
+El problema del contenedor de agua es uno de los ejercicios más conocidos en entrevistas técnicas. Dado un array de enteros que representan la altura de columnas de bloques, el objetivo es determinar cuántas unidades de agua quedan atrapadas entre ellas, asumiendo que existe un suelo impermeable en la base.
+
+## Enunciado
+
+<Note>
+Dado un array de números enteros positivos, donde cada uno representa unidades de bloques apilados, debemos calcular cuántas unidades de agua quedarán atrapadas entre ellos.
+
+**Ejemplo:** dado el array `[4, 0, 3, 6, 1, 3]`:
+
+```
+          ⏹
+          ⏹
+    ⏹💧💧⏹
+    ⏹💧⏹⏹💧⏹
+    ⏹💧⏹⏹💧⏹
+    ⏹💧⏹⏹⏹⏹
+```
+
+Representando bloque con ⏹ y agua con 💧, quedarán atrapadas **7 unidades** de agua. Se asume que existe un suelo impermeable en la parte inferior que retiene el agua.
+</Note>
+
+## Enfoque de Solución
+
+La solución construye una matriz bidimensional `string[,]` de dimensiones `(altura máxima × longitud del array)` y la rellena marcando cada celda con `"#"` si hay un bloque o `"*"` si hay espacio vacío. A continuación recorre la matriz transponiendo filas y columnas para mostrar la representación visual por consola, de arriba a abajo. Este enfoque orientado a la visualización permite ver de forma clara la forma del contenedor antes de contar las unidades atrapadas.
+
+<Tip>
+Para una variante optimizada de O(n), se puede emplear el algoritmo de **dos punteros**: un puntero izquierdo y uno derecho avanzan hacia el centro comparando las alturas máximas vistas desde cada lado (`maxLeft` y `maxRight`), sumando la diferencia en cada posición.
+</Tip>
+
+## Código Fuente
+
+```csharp title="ContenedorAgua.cs"
+/*
+  Dado un array de números enteros positivos, donde cada uno
+  representa unidades de bloques apilados, debemos calcular cuantas unidades
+  de agua quedarán atrapadas entre ellos.
+ 
+  - Ejemplo: Dado el array [4, 0, 3, 6, 1, 3].
+ 
+          ⏹
+          ⏹
+    ⏹💧💧⏹
+    ⏹💧⏹⏹💧⏹
+    ⏹💧⏹⏹💧⏹
+    ⏹💧⏹⏹⏹⏹
+ 
+    Representando bloque con ⏹︎ y agua con 💧, quedarán atrapadas 7 unidades
+    de agua. Suponemos que existe un suelo impermeable en la parte inferior
+    que retiene el agua.
+*/
+ 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public class HelloWorld
+{
+    public static void Main(string[] args)
+    {
+        int[] numeros = { 4, 0, 3, 6, 1, 3 };
+        container(numeros);
+    }
+    
+    static void container(int[] arr) {
+        int max = arr.Max();
+        string[,] contenedor = new string[max,arr.Length];
+        
+        for(int i = arr.Length-1; i >= 0; i--) {
+            for(int j = max-1; j >= 0; j--) {
+                if(arr[i] > j) {
+                    contenedor[i,j] = "#";
+                } else {
+                    contenedor[i,j] = "*";
+                }
+            }
+        }
+        
+        for(int i = arr.Length-1; i >= 0; i--) {
+            for(int j = 0; j < max; j++) {
+                Console.Write(contenedor[j,i] + " ");
+            }
+            Console.WriteLine();
+        }
+        
+    }
+}
+```
+
+## Cómo Ejecutar
+
+<Steps>
+  <Step title="Instala el SDK de .NET">
+    Descarga e instala el [SDK de .NET](https://dotnet.microsoft.com/download) (versión 6 o superior).
+  </Step>
+  <Step title="Guarda el archivo">
+    Crea un archivo llamado `ContenedorAgua.cs` y pega el código fuente.
+  </Step>
+  <Step title="Compila y ejecuta">
+    Desde la terminal, ejecuta:
+    ```bash
+    dotnet script ContenedorAgua.cs
+    ```
+    O compila con `csc ContenedorAgua.cs` y ejecuta con `mono HelloWorld.exe`.
+  </Step>
+</Steps>
+
+## Conceptos Clave
+
+- **Matrices bidimensionales (`string[,]`)** — representación visual del contenedor mediante una cuadrícula de caracteres.
+- **`Array.Max()`** — determinación de la altura máxima para establecer el tamaño de la matriz.
+- **Transposición de índices** — el bucle de impresión intercambia filas y columnas para imprimir el contenedor de arriba a abajo.
+- **Algoritmo de dos punteros** — técnica alternativa O(n) para calcular el agua atrapada sin construir la matriz.

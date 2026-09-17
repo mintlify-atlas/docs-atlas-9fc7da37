@@ -1,0 +1,364 @@
+---
+title: "Prácticas de Estructura de Datos en C: Bubble Sort y más"
+sidebarTitle: "Prácticas en C"
+description: "Aprende los fundamentos del lenguaje C con prácticas comentadas: Bubble Sort, suma interactiva y cálculo de triángulo rectángulo con GCC."
+---
+
+El lenguaje C es uno de los pilares de la programación de sistemas y la base sobre la que se construyen muchos otros lenguajes modernos. Su cercanía al hardware, su control manual de la memoria y su sintaxis expresiva lo convierten en una herramienta indispensable para entender cómo funciona realmente una computadora. En estas prácticas explorarás tres programas fundamentales: una suma interactiva que introduce la entrada/salida estándar, el algoritmo de ordenamiento Bubble Sort para comprender el manejo de arreglos y ciclos anidados, y el cálculo de las propiedades de un triángulo rectángulo usando funciones matemáticas de la librería `math.h`. Cada ejemplo está compilado con **GCC** y contiene comentarios que explican cada decisión de diseño.
+
+---
+
+## Referencia del Lenguaje C
+
+Antes de ver el código de cada práctica, repasa los conceptos clave del lenguaje que usarás a lo largo de todos los ejemplos.
+
+### Estructura básica de un programa C
+
+Todo programa en C parte de una estructura mínima: una directiva `#include` para importar librerías y la función `main()` como punto de entrada.
+
+```c
+#include <stdio.h>
+
+int main() {
+    // Código aquí
+    return 0;
+}
+```
+
+<Tip>
+  El valor `return 0` al final de `main()` le indica al sistema operativo que el programa terminó correctamente. Cualquier valor distinto de cero señala un error.
+</Tip>
+
+Los comentarios pueden ser de una sola línea o de múltiples líneas:
+
+```c
+// Esto es un comentario de una sola línea
+
+/*
+Esto es un comentario
+de múltiples líneas
+*/
+```
+
+---
+
+### Tipos de datos
+
+C soporta varios tipos de datos primitivos. Los más utilizados son:
+
+| Tipo     | Descripción                              | Ejemplo                  |
+|----------|------------------------------------------|--------------------------|
+| `int`    | Número entero                            | `int numero = 10;`       |
+| `float`  | Número de punto flotante (precisión simple) | `float decimal = 5.5;` |
+| `double` | Número de punto flotante (doble precisión) | `double grande = 10.123456;` |
+| `char`   | Carácter individual                      | `char letra = 'A';`      |
+
+---
+
+### Operadores
+
+| Categoría      | Operadores               | Ejemplo            |
+|----------------|--------------------------|--------------------|
+| Aritméticos    | `+`, `-`, `*`, `/`, `%`  | `c = a + b;`       |
+| Comparación    | `==`, `!=`, `>`, `<`, `>=`, `<=` | `if (a > b)` |
+| Lógicos        | `&&`, `\|\|`, `!`        | `if (a > 0 && b > 0)` |
+
+---
+
+### Estructuras de control
+
+**If-Else**
+
+```c
+if (condicion) {
+    // Código si la condición es verdadera
+} else {
+    // Código si la condición es falsa
+}
+```
+
+**Switch**
+
+```c
+switch (variable) {
+    case valor1:
+        // Código
+        break;
+    case valor2:
+        // Código
+        break;
+    default:
+        // Código
+}
+```
+
+**For**
+
+```c
+for (inicializacion; condicion; incremento) {
+    // Código
+}
+```
+
+**While**
+
+```c
+while (condicion) {
+    // Código
+}
+```
+
+---
+
+### Arrays
+
+Un array se declara especificando el tipo y el tamaño. Puede inicializarse directamente con valores:
+
+```c
+int numeros[5] = {1, 2, 3, 4, 5};
+char letras[3] = {'a', 'b', 'c'};
+```
+
+---
+
+### Entrada y salida: `printf()` y `scanf()`
+
+```c
+// Imprimir en pantalla
+printf("Texto a imprimir");
+printf("Numero: %d", numero);
+
+// Leer desde entrada estándar
+scanf("%d", &variable);
+```
+
+<Tip>
+  El símbolo `&` delante del nombre de la variable en `scanf()` le indica a C la **dirección de memoria** donde debe almacenar el valor leído. Olvidarlo es uno de los errores más comunes al aprender C.
+</Tip>
+
+---
+
+### Librerías comunes
+
+| Librería      | Descripción                              |
+|---------------|------------------------------------------|
+| `stdio.h`     | Funciones de entrada y salida (`printf`, `scanf`) |
+| `stdlib.h`    | Funciones de utilidad general (`malloc`, `free`, `exit`) |
+| `math.h`      | Funciones matemáticas (`sqrtf`, `powf`, `fabs`) |
+
+---
+
+## Práctica 1: Suma Interactiva
+
+Este programa le pide al usuario dos números enteros, calcula su suma y muestra el resultado por pantalla. Es el primer contacto con la entrada/salida estándar en C: cómo leer datos del usuario con `scanf()` y cómo presentarlos formateados con `printf()`.
+
+<Steps>
+  <Step title="Escribe el programa">
+    Crea el archivo `Suma.c` con el siguiente contenido:
+
+    ```c Suma.c
+    #include <stdio.h>
+    #include <stdlib.h>
+
+    int main(){
+        // Declaracion de variables
+        int a, b, c;
+        // Pedir el primer numero al usuario
+        printf("Introduce el primer numero: ");
+        // Guardar los numeros en las variables a
+        scanf("%d", &a);
+        // Pedir el segundo numero al usuario
+        printf("Introduce el segundo numero: ");
+        // Guardar los numeros en la variable b
+        scanf("%d", &b);
+        // Sumar los numeros
+        c = a + b;
+        // Imprimir el resultado
+        printf("La suma de %d + %d es: %d\n", a, b, c);
+        // El return 0 indica que el programa termino correctamente
+        return 0;
+    }
+    ```
+  </Step>
+
+  <Step title="Compila y ejecuta">
+    ```bash
+    gcc Suma.c -o suma
+    ./suma
+    ```
+  </Step>
+</Steps>
+
+### Conceptos clave
+
+- **Declaración de variables:** `int a, b, c;` declara tres enteros en la misma línea. C requiere que todas las variables se declaren antes de usarlas.
+- **`scanf("%d", &a)`:** Lee un número entero desde la entrada estándar y lo guarda en la dirección de memoria de `a`. El especificador `%d` indica que se espera un entero decimal.
+- **`printf("La suma de %d + %d es: %d\n", a, b, c)`:** Imprime el resultado usando especificadores de formato. El `\n` al final mueve el cursor a la siguiente línea.
+- **`return 0`:** Señal al sistema operativo de que el programa finalizó sin errores.
+
+---
+
+## Práctica 2: Bubble Sort
+
+Bubble Sort (ordenamiento burbuja) es uno de los algoritmos de ordenamiento más conocidos por su simplicidad. Recorre el arreglo comparando cada par de elementos adyacentes y los intercambia si están en el orden incorrecto. Tras cada pasada completa, el elemento más grande "burbujea" hasta su posición final al final del arreglo. Este proceso se repite hasta que toda la colección está ordenada.
+
+<Steps>
+  <Step title="Escribe el programa">
+    Crea el archivo `Bubble.c` con el siguiente contenido:
+
+    ```c Bubble.c
+    #include <stdio.h>
+    #include <stdlib.h>
+
+    int main()
+    {
+        // Declaracion de variables y del arreglo
+        int coleccion[] = {5, 10, 2, 12, 1};
+        int aux = 0;
+        int n = sizeof(coleccion) / sizeof(coleccion[0]);
+
+        // Ordenar la coleccion
+        // El primer hace que se repita el proceso el numero de veces segun el tamaño de la coleccion
+        // El -1 es para que no se compare el ultimo elemento con el siguiente ya que no hay siguiente
+        for (int i = 0; i < n - 1; i++)
+        {
+            //  El segundo for hace que se compare el elemento actual con el siguiente
+            //  El -1 es para que no se compare el ultimo elemento con el siguiente ya que no hay siguiente
+            //  El -i es para que no se compare con los elementos que ya estan ordenados al final de la coleccion
+            for (int j = 0; j < n - 1 - i; j++)
+            {
+                if (coleccion[j] > coleccion[j + 1])
+                {
+                    aux = coleccion[j];
+                    coleccion[j] = coleccion[j + 1];
+                    coleccion[j + 1] = aux;
+                }
+            }
+            // Imprimir la coleccion ordenada por vuelta
+            printf("\nColeccion ordenada Por vuelta: ");
+            printf("%d \n", i);
+            for (int i = 0; i < n; i++)
+            {
+                printf("%d \n", coleccion[i]);
+            }
+        }
+
+        // Imprimir la coleccion ordenada
+        printf("\nColeccion ordenada: \n");
+        for (int i = 0; i < n; i++)
+        {
+            printf("%d \n", coleccion[i]);
+        }
+
+        return 0;
+    }
+    ```
+  </Step>
+
+  <Step title="Compila y ejecuta">
+    ```bash
+    gcc Bubble.c -o bubble
+    ./bubble
+    ```
+  </Step>
+</Steps>
+
+### Cómo funcionan los dos bucles anidados
+
+El algoritmo utiliza dos ciclos `for` anidados que trabajan juntos:
+
+- **Bucle externo (`i`):** Controla cuántas pasadas se realizan sobre el arreglo. Se ejecuta `n - 1` veces porque en la última iteración solo queda un elemento, que ya está en su lugar.
+- **Bucle interno (`j`):** Realiza las comparaciones entre elementos adyacentes. La condición `j < n - 1 - i` es la optimización clave: en cada pasada, los últimos `i` elementos ya están en su posición definitiva, por lo que no es necesario compararlos nuevamente.
+- **Intercambio con variable auxiliar:** Cuando `coleccion[j] > coleccion[j + 1]`, los valores se intercambian usando la variable temporal `aux` para no perder ningún dato durante el proceso.
+
+### Complejidad temporal
+
+| Caso         | Complejidad |
+|--------------|-------------|
+| Mejor caso   | O(n)        |
+| Caso promedio | O(n²)      |
+| Peor caso    | O(n²)       |
+
+<Tip>
+  En el peor caso (arreglo ordenado en reversa), Bubble Sort realiza n(n−1)/2 comparaciones. Para el arreglo de 5 elementos de este ejemplo, eso equivale a 10 comparaciones como máximo. La optimización `-i` en el bucle interno reduce el trabajo total al evitar re-comparar los elementos que ya quedaron en su posición correcta.
+</Tip>
+
+---
+
+## Práctica 3: Triángulo Rectángulo
+
+Este programa solicita al usuario los dos catetos de un triángulo rectángulo y calcula automáticamente la **hipotenusa**, el **perímetro** y el **área**. Introduce el uso de la librería `math.h` y el manejo de números de punto flotante con `float`.
+
+<Steps>
+  <Step title="Escribe el programa">
+    Crea el archivo `Triangulo.c` con el siguiente contenido:
+
+    ```c Triangulo.c
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <math.h>
+
+    int main(int argc, char *argv[])
+    {
+        // Valores dados de los usuarios
+        float catetoA = 0.0f, catetoB = 0.0f;
+        // Valores calculados
+        float hipotenusa = 0.0f, area = 0.0f, perimetro = 0.0f;
+
+        printf("Ingrese el valor del cateto A: \n");
+        scanf("%f", &catetoA);
+        printf("\n");
+
+        printf("Ingrese el valor del cateto B: \n");
+        scanf("%f", &catetoB);
+        printf("\n");
+
+        if (catetoA <= 0 || catetoB <= 0)
+        {
+            printf("Los valores de los catetos deben ser mayores a 0 \n");
+        }
+        else
+        {
+            hipotenusa = sqrtf(powf(catetoA, 2) + powf(catetoB, 2));
+            perimetro = catetoA + catetoB + hipotenusa;
+            area = (catetoA * catetoB) / 2;
+
+            printf("El valor de la hipotenusa es %.2f \n ", hipotenusa);
+            printf("El valor del perimtro es %.2f \n ", perimetro);
+            printf("El valor del area es %.2f \n ", area);
+        }
+        return 0;
+    }
+    ```
+  </Step>
+
+  <Step title="Compila y ejecuta">
+    A diferencia de las prácticas anteriores, este programa usa funciones de `math.h`, por lo que es necesario enlazar la librería matemática con la bandera `-lm`:
+
+    ```bash
+    gcc Triangulo.c -o triangulo -lm
+    ./triangulo
+    ```
+  </Step>
+</Steps>
+
+### Fórmulas utilizadas
+
+| Propiedad    | Fórmula                                  | Función en C                              |
+|--------------|------------------------------------------|-------------------------------------------|
+| Hipotenusa   | `√(a² + b²)`                             | `sqrtf(powf(catetoA, 2) + powf(catetoB, 2))` |
+| Área         | `(a × b) / 2`                            | `(catetoA * catetoB) / 2`                 |
+| Perímetro    | `a + b + hipotenusa`                     | `catetoA + catetoB + hipotenusa`          |
+
+### Puntos importantes del código
+
+- **`sqrtf()` y `powf()`:** Son versiones de `sqrt()` y `pow()` optimizadas para `float` (en lugar de `double`). Provienen de `math.h`.
+- **Validación de entrada:** El bloque `if (catetoA <= 0 || catetoB <= 0)` protege el programa contra valores inválidos antes de realizar cualquier cálculo.
+- **Especificador `%.2f`:** Imprime el número de punto flotante con exactamente dos decimales, lo que da un resultado limpio y legible.
+- **`-lm` en la compilación:** GCC no enlaza la librería matemática automáticamente. Sin esta bandera, el compilador no encontrará las funciones `sqrtf` y `powf` y lanzará un error de enlace.
+
+---
+
+<Note>
+  ¿Quieres continuar con el siguiente nivel? La guía de **C++** está próximamente disponible. C++ extiende el lenguaje C con programación orientada a objetos, plantillas, la Biblioteca Estándar de Plantillas (STL) y mucho más.
+</Note>

@@ -1,0 +1,125 @@
+---
+title: "Instalar PostgreSQL en Windows y Fedora Linux"
+sidebarTitle: "Instalar PostgreSQL"
+description: "Guía completa para instalar PostgreSQL en Windows y Fedora. Incluye inicialización del servicio, solución de errores y configuración de pg_hba.conf."
+---
+
+PostgreSQL es uno de los sistemas de gestión de bases de datos relacionales de código abierto más populares y robustos del mundo. Admite tipos de datos avanzados, operaciones complejas y permite a los usuarios definir funciones y operadores personalizados, lo que lo convierte en una elección ideal tanto para proyectos pequeños como para aplicaciones empresariales. En esta guía aprenderás a instalarlo en Windows y en Fedora Linux.
+
+<Tabs>
+  <Tab title="Windows">
+    ## Instalar PostgreSQL en Windows
+
+    Descarga e instala PostgreSQL según la versión de tu sistema operativo Windows desde el sitio oficial:
+
+    👉 [Download PostgreSQL for Windows](https://www.postgresql.org/download/windows/)
+
+    Una vez descargado el instalador, ábrelo y sigue las instrucciones del asistente. Si no deseas entrar en problemas de configuración, simplemente acepta todas las opciones predeterminadas haciendo clic en **Siguiente** en cada pantalla.
+  </Tab>
+
+  <Tab title="Fedora Linux">
+    ## Instalar PostgreSQL en Fedora Linux
+
+    <Steps>
+      <Step title="Actualizar el sistema">
+        Abre una terminal y ejecuta el siguiente comando para actualizar los repositorios y paquetes antes de comenzar:
+
+        ```bash
+        sudo dnf update
+        ```
+      </Step>
+
+      <Step title="Instalar el repositorio RPM de PostgreSQL">
+        Instala el RPM desde el repositorio oficial de PostgreSQL. Antes de ejecutar el comando, verifica la versión de tu sistema Fedora y ajusta el número en la URL si es necesario (en este ejemplo se usa Fedora 39):
+
+        ```bash
+        sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/F-39-x86_64/pgdg-fedora-repo-latest.noarch.rpm
+        ```
+      </Step>
+
+      <Step title="Instalar el servidor de PostgreSQL">
+        Fedora utiliza un servicio de PostgreSQL que mantiene el motor activo y funcionando. Instala el servidor con:
+
+        ```bash
+        sudo dnf install postgresql-server
+        ```
+      </Step>
+
+      <Step title="Habilitar e iniciar el servicio">
+        Habilita el servicio de PostgreSQL para que arranque automáticamente al iniciar el sistema:
+
+        ```bash
+        sudo systemctl enable postgresql
+        ```
+
+        Luego inicia el servicio:
+
+        ```bash
+        sudo systemctl start postgresql
+        ```
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Solución de Problemas
+
+Si durante la instalación o el inicio del servicio encuentras algún error, consulta los siguientes apartados.
+
+<Accordion title="Si el servicio no inicia">
+  Si PostgreSQL no arranca correctamente, es posible que el directorio de datos no tenga los permisos adecuados o que no haya sido inicializado. Sigue estos pasos en orden:
+
+  Asigna el usuario `postgres` al directorio de datos:
+
+  ```bash
+  sudo chown -R postgres:postgres /var/lib/pgsql/data
+  ```
+
+  Otorga los permisos necesarios al directorio:
+
+  ```bash
+  sudo chmod 700 /var/lib/pgsql/data
+  ```
+
+  Habilita el servicio nuevamente:
+
+  ```bash
+  sudo systemctl enable postgresql
+  ```
+
+  Ejecuta `initdb` para inicializar el clúster de base de datos con toda la configuración necesaria:
+
+  ```bash
+  sudo /usr/bin/postgresql-setup initdb
+  ```
+
+  Finalmente, reinicia el servicio:
+
+  ```bash
+  sudo systemctl restart postgresql
+  ```
+</Accordion>
+
+<Accordion title="Ver logs de error">
+  Si necesitas revisar los registros del servicio para diagnosticar un problema, ejecuta el siguiente comando para consultar el journal del sistema:
+
+  ```bash
+  sudo journalctl -xeu postgresql.service
+  ```
+
+  Este comando mostrará los mensajes de error detallados generados por PostgreSQL, lo que te ayudará a identificar la causa raíz del problema.
+</Accordion>
+
+<Accordion title="Modificar configuración de pg_hba.conf">
+  El archivo `pg_hba.conf` controla la autenticación de clientes en PostgreSQL. Si necesitas modificar los métodos de acceso o los permisos de conexión, ábrelo con el siguiente comando:
+
+  ```bash
+  sudo nano /var/lib/pgsql/data/pg_hba.conf
+  ```
+
+  Tras realizar los cambios, recuerda reiniciar el servicio para que se apliquen:
+
+  ```bash
+  sudo systemctl restart postgresql
+  ```
+</Accordion>

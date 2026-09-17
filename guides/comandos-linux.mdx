@@ -1,0 +1,245 @@
+---
+title: "Comandos Linux por distribución: Ubuntu, Debian y Fedora"
+sidebarTitle: "Comandos Linux"
+description: "Referencia de comandos de terminal para Ubuntu, Debian y Fedora/Red Hat. Navega archivos, gestiona paquetes y administra usuarios desde la línea de comandos."
+---
+
+Esta referencia cubre los comandos de terminal más utilizados en tres de las distribuciones Linux más populares: Ubuntu, Debian y Fedora (Red Hat). Aunque comparten una base común de comandos POSIX, cada distribución tiene particularidades en la gestión de paquetes y en algunas herramientas de administración del sistema. Selecciona la pestaña correspondiente a tu distribución para consultar los comandos organizados por categoría.
+
+<Tabs>
+  <Tab title="Ubuntu">
+
+    ## Navegación en el sistema de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Muestra el contenido del directorio actual | `ls` |
+    | Cambia al directorio especificado | `cd directorio` |
+    | Crea un nuevo directorio | `mkdir nombre_directorio` |
+    | Elimina un directorio vacío | `rmdir nombre_directorio` |
+
+    ## Gestión de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Copia archivos o directorios | `cp origen destino` |
+    | Mueve o renombra archivos o directorios | `mv origen destino` |
+    | Elimina archivos o directorios | `rm archivo_o_directorio` |
+
+    ## Visualización de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Muestra el contenido de un archivo de texto | `cat archivo.txt` |
+    | Muestra el contenido de un archivo de forma paginada | `less archivo.txt` |
+
+    ## Permisos de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Cambia los permisos de un archivo o directorio | `chmod permisos archivo_o_directory` |
+
+    ## Búsqueda de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Busca archivos por nombre | `find directorio_a_buscar -name "nombre_archivo"` |
+
+    ## Gestión de paquetes
+
+    Ubuntu utiliza `apt` como gestor de paquetes principal.
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Actualiza la lista de paquetes disponibles | `sudo apt update` |
+    | Instala un paquete | `sudo apt install nombre_paquete` |
+    | Elimina un paquete | `sudo apt remove nombre_paquete` |
+
+    ## Información del sistema
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Muestra información del sistema | `uname -a` |
+
+    ## Usuarios y grupos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Agrega un nuevo usuario | `sudo adduser nombre_usuario` |
+    | Elimina un usuario | `sudo deluser nombre_usuario` |
+
+    ## Otros comandos útiles
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Limpia la pantalla | `clear` |
+    | Reinicia el sistema | `reboot` |
+    | Apaga el sistema | `shutdown -h now` |
+
+  </Tab>
+  <Tab title="Debian">
+
+    ## Navegación en el sistema de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Muestra el contenido del directorio actual | `ls` |
+    | Cambia al directorio especificado | `cd directorio` |
+    | Crea un nuevo directorio | `mkdir nombre_directorio` |
+    | Elimina un directorio vacío | `rmdir nombre_directorio` |
+
+    ## Gestión de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Copia archivos o directorios | `cp origen destino` |
+    | Mueve o renombra archivos o directorios | `mv origen destino` |
+    | Elimina archivos o directorios | `rm archivo_o_directorio` |
+
+    ## Visualización de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Muestra el contenido de un archivo de texto | `cat archivo.txt` |
+    | Muestra el contenido de un archivo de forma paginada | `less archivo.txt` |
+
+    ## Permisos de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Cambia los permisos de un archivo o directorio | `chmod permisos archivo_o_directorio` |
+
+    ## Búsqueda de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Busca archivos por nombre | `find directorio_a_buscar -name "nombre_archivo"` |
+
+    ## Gestión de paquetes
+
+    Debian también utiliza `apt` como gestor de paquetes.
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Actualiza la lista de paquetes disponibles | `sudo apt update` |
+    | Instala un paquete | `sudo apt install nombre_paquete` |
+    | Elimina un paquete | `sudo apt remove nombre_paquete` |
+
+    ## Información del sistema
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Muestra información del sistema | `uname -a` |
+
+    ## Usuarios y grupos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Agrega un nuevo usuario | `sudo adduser nombre_usuario` |
+    | Elimina un usuario | `sudo deluser nombre_usuario` |
+
+    ## Otros comandos útiles
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Limpia la pantalla | `clear` |
+    | Reinicia el sistema | `reboot` |
+    | Apaga el sistema | `shutdown -h now` |
+
+  </Tab>
+  <Tab title="Fedora (Red Hat)">
+
+    ## Navegación en el sistema de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Muestra el contenido del directorio actual | `ls` |
+    | Cambia al directorio especificado | `cd directorio` |
+    | Crea un nuevo directorio | `mkdir nombre_directorio` |
+    | Elimina un directorio vacío | `rmdir nombre_directorio` |
+
+    ## Gestión de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Copia archivos o directorios | `cp origen destino` |
+    | Mueve o renombra archivos o directorios | `mv origen destino` |
+    | Elimina archivos o directorios | `rm archivo_o_directorio` |
+
+    ## Visualización de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Muestra el contenido de un archivo de texto | `cat archivo.txt` |
+    | Muestra el contenido de un archivo de forma paginada | `less archivo.txt` |
+
+    ## Modificación de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Modificar el contenido de un archivo | `nano archivo.txt` |
+
+    ## Permisos de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Cambia los permisos de un archivo o directorio | `chmod permisos archivo_o_directorio` |
+
+    ## Búsqueda de archivos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Busca archivos por nombre | `find directorio_a_buscar -name "nombre_archivo"` |
+
+    ## Gestión de paquetes
+
+    Fedora utiliza `dnf` como gestor de paquetes, el sucesor moderno de `yum`.
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Actualiza la lista de paquetes disponibles | `dnf update` |
+    | Instala un paquete | `dnf install nombre_paquete` |
+    | Elimina un paquete | `dnf remove nombre_paquete` |
+
+    ## Información del sistema
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Muestra información del sistema | `uname -a` |
+
+    ## Usuarios y grupos
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Agrega un nuevo usuario | `useradd nombre_usuario` |
+    | Elimina un usuario | `userdel nombre_usuario` |
+
+    ## Otros comandos útiles
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Limpia la pantalla | `clear` |
+    | Reinicia el sistema | `reboot` |
+    | Apaga el sistema | `shutdown -h now` |
+
+    ## Comandos específicos de Fedora
+
+    Fedora incluye herramientas adicionales para la administración avanzada del sistema que no están presentes en otras distribuciones por defecto.
+
+    | Descripción | Comando |
+    | --- | --- |
+    | Busca paquetes por palabras clave | `dnf search` |
+    | Lista los grupos de paquetes disponibles | `dnf grouplist` |
+    | Instala un grupo de paquetes | `dnf groupinstall` |
+    | Gestor de servicios y unidades del sistema | `systemd` |
+    | Configura el firewall de firewalld | `firewall-cmd` |
+    | Resuelve problemas relacionados con SELinux | `setroubleshoot` |
+    | Personaliza el entorno de escritorio GNOME (si se utiliza) | `gnome-tweaks` |
+    | Configura el entorno de escritorio KDE (si se utiliza) | `kde-config` |
+
+  </Tab>
+</Tabs>
+
+<Tip>
+  Ubuntu y Debian comparten prácticamente todos sus comandos de sistema de archivos, gestión de usuarios y herramientas de red, ya que Ubuntu está basado en Debian. La diferencia más notable entre ambas distribuciones es la cadencia de actualizaciones y los repositorios disponibles. Fedora, al basarse en Red Hat, utiliza `dnf` en lugar de `apt` y añade herramientas específicas como `firewall-cmd` y `setroubleshoot` para la gestión de seguridad con SELinux.
+</Tip>

@@ -1,28 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "name": "StudyCodeMatu",
+  "projectType": "general",
+  "projectName": "StudyCodeMatu",
+  "projectDescription": "A learning repository by MatuDev containing logical programming exercises, installation guides, Linux/Git command references, and data structure practices in C#, PHP, and C — designed to help novice developers.",
   "theme": "almond",
-  "colors": {
-    "primary": "#0f0f0f",
-    "light": "#ff0033",
-    "dark": "#fc7494"
-  },
-  "favicon": "https://media.brand.dev/e9d57f51-3e89-4354-9bb4-38662a5dcc0e.png",
-  "logo": {
-    "light": "https://media.brand.dev/b444f376-2b94-46d7-a70c-42bd655875fd.svg",
-    "dark": "https://media.brand.dev/b444f376-2b94-46d7-a70c-42bd655875fd.svg"
-  },
-  "navbar": {
-    "primary": {
-      "type": "github",
-      "href": "https://github.com/soymatudev/StudyCodeMatu"
-    }
-  },
-  "footer": {
-    "socials": {
-      "github": "https://github.com/soymatudev/StudyCodeMatu"
-    }
-  },
+  "primaryColor": "#0f0f0f",
+  "lightColor": "#ff0033",
+  "darkColor": "#fc7494",
   "navigation": {
     "tabs": [
       {
@@ -93,5 +76,31 @@
         ]
       }
     ]
-  }
+  },
+  "keyFeatures": [
+    "12 ejercicios lógicos con soluciones en C# y PHP",
+    "Guías de instalación paso a paso para Git, LAMPP/XAMPP y PostgreSQL en Windows y Fedora",
+    "Referencia de comandos básicos de Git y GitHub",
+    "Comandos de Linux para Debian, Ubuntu y Fedora/Red Hat",
+    "Prácticas de Estructura de Datos en lenguaje C (Bubble Sort, operaciones matemáticas)",
+    "Guía de referencia del lenguaje C"
+  ],
+  "publicApiSurface": [
+    "BatallaPokemon.battle(ty1, ty2, attak, defense)",
+    "BatallaPokemon.calcEffect(ty1, ty2)",
+    "MaquinaExpendedora.artics(code, dinero[])",
+    "MaquinaExpendedora.cambio(dinero[], costP)",
+    "MaquinaExpendedora.comprobarDinero(dinero[], costP)",
+    "QuickSort.Sort(array)",
+    "Robot.calcCoordinates(steps[])",
+    "TrianguloPascal.Draw(size)",
+    "ContenedorAgua.Calculate(blocks[])",
+    "MaxMin.MCD(a, b) / MaxMin.MCM(a, b)",
+    "MarcoPalabras.Frame(text)",
+    "Conjuntos.FindElements(arr1, arr2, isCommon)",
+    "Palindromo.Check(text)",
+    "Bubble Sort in C (Bubble.c)",
+    "Sum program in C (Suma.c)",
+    "Right-triangle calculator in C (Triangulo.c)"
+  ]
 }

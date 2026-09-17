@@ -1,0 +1,95 @@
+---
+title: "MCD y MCM: máximo común divisor y mínimo común múltiplo en C#"
+sidebarTitle: "MCD y MCM"
+description: "Ejercicio en C# que implementa el algoritmo de Euclides para calcular el MCD y a partir de él el MCM de dos enteros, sin usar operaciones del lenguaje."
+---
+
+Calcular el máximo común divisor (MCD) y el mínimo común múltiplo (MCM) de dos números enteros es un ejercicio fundamental en matemáticas discretas y teoría de números. Este reto refuerza la comprensión del **algoritmo de Euclides**, uno de los algoritmos más antiguos y eficientes conocidos, y muestra cómo derivar el MCM a partir del MCD sin recurrir a funciones predefinidas del lenguaje.
+
+## Enunciado
+
+<Note>
+Crea dos funciones, una que calcule el máximo común divisor (MCD) y otra que calcule el mínimo común múltiplo (MCM) de dos números enteros.
+
+- **No** se pueden utilizar operaciones del lenguaje que lo resuelvan directamente.
+</Note>
+
+## Enfoque de Solución
+
+El MCD se calcula mediante el **algoritmo de Euclides iterativo**: en cada iteración se toma el resto de dividir el número mayor entre el menor (`num1 % divisor`), y los valores se desplazan hasta que el resto es cero; el último resto distinto de cero es el MCD. Una vez obtenido el MCD, el MCM se calcula con la fórmula `MCM = (num1 / MCD) * (num2 / MCD) * MCD`, que evita el desbordamiento al dividir antes de multiplicar.
+
+## Código Fuente
+
+```csharp title="MaxMin.cs"
+/*
+  Crea dos funciones, una que calcule el máximo común divisor (MCD) y otra
+  que calcule el mínimo común múltiplo (mcm) de dos números enteros.
+
+  - No se pueden utilizar operaciones del lenguaje que lo resuelvan directamente.
+*/
+
+using System;
+
+public class MaxMin
+{
+    public static void Main(string[] args)
+    {
+        int mcd = MCD(4, 6);
+        MCM(4, 6, mcd);
+        
+        mcd = MCD(24, 36);
+        MCM(24, 36, mcd);
+        
+        mcd = MCD(12, 18);
+        MCM(12, 18, mcd);
+    }
+    
+    public static void MCM(int num1, int num2, int mcd) {
+        int mcm = 0;
+        Console.Write("El mcm para {0} y {1} es: ", num1, num2);
+        mcm = (num1/mcd) * (num2/mcd) * mcd; 
+        Console.WriteLine(mcm);
+    }
+    
+    public static int MCD(int num1, int num2) {
+        int res = 0, divisor = num2;
+        int mcd = 0; 
+        Console.Write("El MCD para {0} y {1} es: ", num1, num2);
+        
+        do {
+            res = num1 % divisor;
+            num1 = divisor;
+            divisor = res;
+            mcd = res > 0 ? res : mcd;
+        } while(res > 0);
+        
+        Console.WriteLine(mcd);
+        return mcd;
+    }
+}
+```
+
+## Cómo Ejecutar
+
+<Steps>
+  <Step title="Instala el SDK de .NET">
+    Descarga e instala el [SDK de .NET](https://dotnet.microsoft.com/download) (versión 6 o superior).
+  </Step>
+  <Step title="Guarda el archivo">
+    Crea un archivo llamado `MaxMin.cs` y pega el código fuente.
+  </Step>
+  <Step title="Compila y ejecuta">
+    Desde la terminal, ejecuta:
+    ```bash
+    dotnet script MaxMin.cs
+    ```
+    O compila con `csc MaxMin.cs` y ejecuta con `mono MaxMin.exe`.
+  </Step>
+</Steps>
+
+## Conceptos Clave
+
+- **Algoritmo de Euclides** — calcula el MCD mediante divisiones sucesivas de resto, con complejidad O(log min(a, b)).
+- **Bucle `do-while`** — garantiza que la primera iteración siempre se ejecute, adecuado cuando el resto inicial puede ser no nulo.
+- **Relación MCD-MCM** — la fórmula `MCM = (a/MCD) * (b/MCD) * MCD` conecta ambos conceptos y evita desbordamientos de enteros.
+- **Operador ternario** — se usa para actualizar el MCD acumulado solo cuando el resto es positivo.

@@ -1,0 +1,106 @@
+---
+title: "Quick Sort: implementa el algoritmo de Hoare en C#"
+sidebarTitle: "Quick Sort"
+description: "Ejercicio en C# que implementa el algoritmo Quick Sort de C.A.R. Hoare: selección de pivote, partición del array y ordenación recursiva de las dos mitades."
+---
+
+Quick Sort es uno de los algoritmos de ordenación más utilizados en la historia de la informática. Fue diseñado por **C.A.R. Hoare** en 1959 y sigue siendo la base de las funciones de ordenación en muchos lenguajes modernos gracias a su rendimiento promedio de O(n log n). Implementarlo desde cero es un ejercicio imprescindible para comprender la **recursión** y el paradigma **divide y vencerás**.
+
+## Enunciado
+
+<Note>
+Implementa uno de los algoritmos de ordenación más famosos: el "Quick Sort", creado por C.A.R. Hoare.
+
+- Entender el funcionamiento de los algoritmos más utilizados de la historia nos ayuda a mejorar nuestro conocimiento sobre ingeniería de software. Dedícale tiempo a entenderlo, no únicamente a copiar su implementación.
+
+Este ejercicio pertenece a la serie **"TOP ALGORITMOS"**, donde se trabajan y comprenden los algoritmos más famosos de la historia.
+</Note>
+
+## Enfoque de Solución
+
+La función `partition` selecciona como **pivote** el último elemento del subarreglo (`arr[max]`) e itera desde `min` hasta `max - 1`. Cada vez que encuentra un elemento menor que el pivote, incrementa el índice `i` e intercambia ese elemento con la posición `i`, acumulando los menores a la izquierda. Al terminar el bucle, coloca el pivote en su posición definitiva intercambiándolo con `arr[i+1]` y devuelve ese índice. La función `quickSort` llama recursivamente a `partition` para los subarreglos izquierdo (de `min` a `i-1`) y derecho (de `i+1` a `max`) hasta que el subarreglo tiene tamaño uno o cero, momento en el que la recursión se detiene.
+
+## Código Fuente
+
+```csharp title="QuickSort.cs"
+/*
+  Implementa uno de los algoritmos de ordenación más famosos:
+  el "Quick Sort", creado por C.A.R. Hoare.
+  - Entender el funcionamiento de los algoritmos más utilizados de la historia
+    Nos ayuda a mejorar nuestro conocimiento sobre ingeniería de software.
+    Dedícale tiempo a entenderlo, no únicamente a copiar su implementación.
+  - Esta es una nueva serie de retos llamada "TOP ALGORITMOS",
+    donde trabajaremos y entenderemos los más famosos de la historia.
+*/
+ 
+using System;
+
+public class QuickSort
+{
+    public static void Main(string[] args)
+    {
+        int[] arr = {10, 80, 30, 90, 80, 40};
+        int n = arr.Length;   
+        
+        quickSort(arr, 0, n-1);
+        foreach(int a in arr) {
+            Console.WriteLine(a);
+        }
+    }
+    
+    static int partition(int[] arr, int min, int max) {
+        int pivot = arr[max];
+        int i = min - 1;
+        
+        for(int j = min; j < max; j++) {
+            if(arr[j] < pivot) {
+                i++;
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        
+        i++;
+        int temp1 = arr[i];
+        arr[i] = pivot;
+        arr[max] = temp1;
+        
+        return i;
+    }
+    
+    static void quickSort(int[] arr, int min, int max) {
+        if(min < max) {
+            int i = partition(arr, min, max);
+            quickSort(arr, min, i - 1);
+            quickSort(arr, i + 1, max);
+        }
+    }
+    
+}
+```
+
+## Cómo Ejecutar
+
+<Steps>
+  <Step title="Instala el SDK de .NET">
+    Descarga e instala el [SDK de .NET](https://dotnet.microsoft.com/download) (versión 6 o superior).
+  </Step>
+  <Step title="Guarda el archivo">
+    Crea un archivo llamado `QuickSort.cs` y pega el código fuente.
+  </Step>
+  <Step title="Compila y ejecuta">
+    Desde la terminal, ejecuta:
+    ```bash
+    dotnet script QuickSort.cs
+    ```
+    O compila con `csc QuickSort.cs` y ejecuta con `mono QuickSort.exe`.
+  </Step>
+</Steps>
+
+## Conceptos Clave
+
+- **Divide y vencerás** — el array se divide en dos particiones alrededor del pivote y cada mitad se ordena de forma independiente.
+- **Recursión** — `quickSort` se llama a sí misma con subarreglos cada vez más pequeños hasta alcanzar el caso base (`min >= max`).
+- **Intercambio in-place** — los elementos se reordenan dentro del mismo array mediante una variable temporal, sin necesidad de memoria adicional.
+- **Selección de pivote** — usar el último elemento simplifica la implementación; en entornos de producción se prefieren estrategias como la mediana de tres para evitar el peor caso O(n²).

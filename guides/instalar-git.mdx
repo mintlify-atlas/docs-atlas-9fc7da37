@@ -1,0 +1,52 @@
+---
+title: "Instalar Git en Windows y Linux paso a paso"
+sidebarTitle: "Instalar Git"
+description: "Descarga e instala Git en Windows y Linux (Fedora/Ubuntu). Configura tu identidad, conecta con GitHub y ejecuta tu primer push en minutos."
+---
+
+Git es un sistema de control de versiones distribuido, libre y de código abierto, diseñado para manejar desde pequeños hasta grandes proyectos con velocidad y eficiencia. En esta guía aprenderás a instalarlo tanto en Windows como en Linux, y a configurarlo para que funcione correctamente con GitHub.
+
+<Tabs>
+  <Tab title="Windows">
+    ## Descargar e instalar Git en Windows
+
+    Descarga Git según la versión de tu sistema operativo Windows desde el sitio oficial:
+
+    👉 [Download Git for Windows](https://git-scm.com/downloads/win)
+
+    Una vez descargado el instalador, ábrelo y sigue las instrucciones que el propio asistente te indica. Las opciones predeterminadas son suficientes para la mayoría de los casos.
+  </Tab>
+
+  <Tab title="Linux">
+    ## Instalar Git en Linux (Fedora)
+
+    Normalmente, Linux ya trae Git instalado. Para saber qué versión tienes instalada, abre tu terminal y ejecuta:
+
+    ```bash
+    git -v
+    ```
+
+    Si Git no está instalado en tu sistema, puedes instalarlo con el siguiente comando:
+
+    ```bash
+    sudo dnf install git
+    ```
+  </Tab>
+</Tabs>
+
+## Configurar Git para GitHub
+
+Antes de empezar a usar Git con GitHub, debes indicarle a Git quién eres. Esto es necesario para que tus commits queden registrados con tu identidad. Ejecuta los siguientes comandos en tu terminal reemplazando los valores por tu nombre y correo electrónico:
+
+```bash
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu@email.com"
+```
+
+Estos valores quedarán guardados de forma global en tu sistema y se usarán en todos tus repositorios.
+
+<Note>
+  Para una configuración completa y sin errores, se recomienda ver el siguiente video a partir del minuto **2:27:54**, donde se explica paso a paso cómo configurar tu equipo con GitHub. Puedes reproducirlo a x1.5 para ir más rápido.
+
+  👉 [Git y GitHub — Configuración completa para tu repo](https://youtu.be/3GymExBkKjE?t=8874)
+</Note>

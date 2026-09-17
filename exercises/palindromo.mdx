@@ -1,0 +1,124 @@
+---
+title: "Palíndromo: detecta palabras y frases palindrómicas en PHP"
+sidebarTitle: "Palíndromo"
+description: "Detecta si una palabra o frase es un palíndromo en PHP, ignorando espacios, puntuación y tildes mediante normalización previa de la cadena de entrada."
+---
+
+Un palíndromo es una palabra o frase que se lee igual de izquierda a derecha que de derecha a izquierda. Este ejercicio va más allá de la verificación simple: la función debe ignorar espacios, signos de puntuación y tildes, lo que convierte el problema en un ejercicio completo de **normalización de cadenas** antes de aplicar cualquier lógica de comparación. El ejemplo clásico en español es la frase *"Ana lleva al oso la avellana"*, que oculta su naturaleza palindrómica hasta que se eliminan los espacios y los acentos.
+
+## Enunciado
+
+<Note>
+  - Escribe una función que reciba un texto y retorne `verdadero` o `falso` (Boolean) según sean o no palíndromos.
+  - Un palíndromo es una palabra o expresión que es igual si se lee de izquierda a derecha que de derecha a izquierda.
+  - **NO** se tienen en cuenta los espacios, signos de puntuación ni tildes.
+  - Ejemplo: `Ana lleva al oso la avellana.`
+</Note>
+
+## Enfoque de Solución
+
+La solución se divide en dos funciones. Primero, `eliminar_acentos_puntua()` normaliza la cadena: reemplaza cada vocal acentuada por su equivalente sin tilde usando `str_replace()`, elimina los signos de puntuación y suprime todos los espacios en blanco. Una vez normalizada, `palindromo()` convierte la cadena a minúsculas con `strtolower()` y recorre su longitud completa comparando cada carácter en la posición `i` con su simétrico en la posición `longitud - 1 - i`. Si todos los pares coinciden, el contador iguala la longitud y la función devuelve `"Verdadero"`.
+
+## Código Fuente
+
+```php Palindromo.php
+<?php
+/*
+  - Escribe una función que reciba un texto y retorne verdadero o falso (Boolean) según sean o no palíndromos.
+  - Un Palíndromo es una palabra o expresión que es igual si se lee de izquierda a derecha que de derecha a izquierda.
+  - NO se tienen en cuenta los espacios, signos de puntuación y tildes.
+  Ejemplo: Ana lleva al oso la avellana.
+ */
+ 
+ function palindromo($str) {
+    $str = strtolower(eliminar_acentos_puntua($str));
+    $len = strlen($str); 
+    $count = 0;
+    
+    for($i = 0; $i < $len; $i++){
+        if($str[$i] == $str[($len-1) - $i]) {
+            $count++;
+        }
+    }
+    
+    return $count == ($len) ? "Verdadero" : "Falso";
+ }
+ 
+ function eliminar_acentos_puntua($cadena){
+		
+		//Reemplazamos la A y a
+		$cadena = str_replace(
+		['Á', 'À', 'Â', 'Ä', 'á', 'à', 'ä', 'â', 'ª'],
+		['A', 'A', 'A', 'A', 'a', 'a', 'a', 'a', 'a'],
+		$cadena
+		);
+
+		//Reemplazamos la E y e
+		$cadena = str_replace(
+		['É', 'È', 'Ê', 'Ë', 'é', 'è', 'ë', 'ê'],
+		['E', 'E', 'E', 'E', 'e', 'e', 'e', 'e'],
+		$cadena );
+
+		//Reemplazamos la I y i
+		$cadena = str_replace(
+		['Í', 'Ì', 'Ï', 'Î', 'í', 'ì', 'ï', 'î'],
+		['I', 'I', 'I', 'I', 'i', 'i', 'i', 'i'],
+		$cadena );
+
+		//Reemplazamos la O y o
+		$cadena = str_replace(
+		['Ó', 'Ò', 'Ö', 'Ô', 'ó', 'ò', 'ö', 'ô'],
+		['O', 'O', 'O', 'O', 'o', 'o', 'o', 'o'],
+		$cadena );
+
+		//Reemplazamos la U y u
+		$cadena = str_replace(
+		['Ú', 'Ù', 'Û', 'Ü', 'ú', 'ù', 'ü', 'û'],
+		['U', 'U', 'U', 'U', 'u', 'u', 'u', 'u'],
+		$cadena );
+
+		//Reemplazamos la N, n, C y c
+		$cadena = str_replace(
+		['Ñ', 'ñ', 'Ç', 'ç'],
+		['N', 'n', 'C', 'c'],
+		$cadena
+		);
+		
+		$cadena = str_replace(
+		    [",", ".", ";", ":", "'", '"', "{", "}", "(", ")", "?", " "],
+	    "",
+	    $cadena);
+		
+		return $cadena;
+	}
+
+echo palindromo("anilina") . "\n";
+echo palindromo("Ana lleva al oso la avellana.") . "\n";
+echo palindromo("Claramente esto no es un palindromo??[q]csa") . "\n";
+
+?>
+```
+
+## Cómo Ejecutar
+
+<Steps>
+  <Step title="Tener PHP instalado">
+    Verifica que PHP esté disponible ejecutando `php -v` en la terminal. Necesitas PHP 7.0 o superior.
+  </Step>
+  <Step title="Guardar el archivo">
+    Copia el código fuente y guárdalo como `Palindromo.php` en tu directorio de trabajo.
+  </Step>
+  <Step title="Ejecutar el script">
+    Abre una terminal en el directorio donde guardaste el archivo y ejecuta:
+    ```bash
+    php Palindromo.php
+    ```
+  </Step>
+</Steps>
+
+## Conceptos Clave
+
+- **Normalización de cadenas**: eliminación de tildes, puntuación y espacios como paso previo al análisis con `str_replace()`.
+- **Comparación de caracteres por índice simétrico**: técnica de dos punteros que compara posición `i` con `longitud - 1 - i`.
+- **Separación de responsabilidades**: división de la lógica en dos funciones especializadas, una para limpiar y otra para verificar.
+- **Insensibilidad a mayúsculas**: normalización a minúsculas con `strtolower()` antes de comparar.

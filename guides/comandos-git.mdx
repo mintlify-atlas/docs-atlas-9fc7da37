@@ -1,0 +1,124 @@
+---
+title: "Comandos Git y GitHub: referencia completa para desarrolladores"
+sidebarTitle: "Comandos Git"
+description: "Referencia rápida de los comandos Git más usados: inicialización, seguimiento, commits, ramas, repositorios remotos y flujo básico con GitHub."
+---
+
+Git es un sistema de control de versiones distribuido que permite a los desarrolladores rastrear cambios en su código, colaborar con otros y mantener un historial completo de su proyecto. Esta referencia cubre los comandos esenciales de Git y el flujo de trabajo básico con GitHub, desde la configuración inicial hasta la gestión de ramas y repositorios remotos.
+
+<Note>
+  Consulta la documentación oficial para profundizar en cada comando: [Documentación de Git](https://git-scm.com/doc) y [GitHub Guides](https://docs.github.com/en).
+</Note>
+
+## Inicialización y Configuración
+
+Antes de comenzar a trabajar con Git, es necesario inicializar el repositorio y configurar tu identidad de usuario.
+
+| Descripción | Comando |
+| --- | --- |
+| Inicializa un nuevo repositorio Git en el directorio actual | `git init` |
+| Configura tu nombre de usuario global | `git config --global user.name "Tu Nombre"` |
+| Configura tu correo electrónico global | `git config --global user.email "tu@correo.com"` |
+
+## Flujo Básico de un Repositorio Nuevo
+
+Al crear un repositorio local por primera vez y vincularlo a GitHub, el flujo completo de publicación inicial sigue estos pasos en orden:
+
+<Steps>
+  <Step title="Inicializa el repositorio local">
+    ```bash
+    git init
+    ```
+  </Step>
+  <Step title="Agrega todos los archivos al área de preparación">
+    ```bash
+    git add .
+    ```
+  </Step>
+  <Step title="Crea el primer commit">
+    ```bash
+    git commit -m "first commit"
+    ```
+  </Step>
+  <Step title="Renombra la rama principal a main">
+    ```bash
+    git branch -M main
+    ```
+  </Step>
+  <Step title="Vincula el repositorio remoto de GitHub">
+    ```bash
+    git remote add origin git@github.com:soymatudev/Ejemplo.git
+    ```
+  </Step>
+  <Step title="Sube los cambios al repositorio remoto">
+    ```bash
+    git push -u origin main
+    ```
+  </Step>
+</Steps>
+
+## Seguimiento de Archivos
+
+Antes de crear un commit, los archivos deben añadirse al área de preparación (*staging area*).
+
+| Descripción | Comando |
+| --- | --- |
+| Agrega todos los archivos nuevos y modificados al área de preparación | `git add .` |
+| Agrega un archivo específico al área de preparación | `git add archivo.txt` |
+
+## Crear Commits
+
+Una vez que los cambios están en el área de preparación, se registran en el historial mediante un commit.
+
+| Descripción | Comando |
+| --- | --- |
+| Crea un nuevo commit con los cambios del área de preparación | `git commit -m "Mensaje de commit"` |
+
+## Ver Historial
+
+Para revisar el registro de cambios del proyecto:
+
+| Descripción | Comando |
+| --- | --- |
+| Muestra el historial de commits | `git log` |
+
+## Gestión de Ramas
+
+Las ramas permiten desarrollar funcionalidades o correcciones de forma aislada sin afectar la rama principal.
+
+| Descripción | Comando |
+| --- | --- |
+| Crea una nueva rama | `git branch nueva_rama` |
+| Cambia a una rama existente | `git checkout rama_existente` |
+| Crea una nueva rama y cambia a ella simultáneamente | `git checkout -b nueva_rama` |
+| Fusiona una rama en la rama actual | `git merge rama_a_fusionar` |
+
+## Repositorios Remotos
+
+Estos comandos permiten sincronizar el repositorio local con un servidor remoto como GitHub.
+
+| Descripción | Comando |
+| --- | --- |
+| Agrega un repositorio remoto | `git remote add origin <URL>` |
+| Envía los cambios locales al repositorio remoto | `git push origin main` |
+| Descarga los cambios del repositorio remoto | `git pull origin main` |
+
+## Comandos Útiles
+
+Comandos de uso frecuente para inspeccionar y corregir el estado del repositorio.
+
+| Descripción | Comando |
+| --- | --- |
+| Muestra el estado actual del repositorio | `git status` |
+| Deshace el último commit (mantiene los cambios en el área de trabajo) | `git reset HEAD^` |
+| Elimina un archivo del seguimiento de Git | `git rm archivo.txt` |
+
+## Conceptos de GitHub
+
+GitHub es la plataforma de alojamiento de repositorios Git más utilizada. Además de la línea de comandos, ofrece herramientas de colaboración a través de su interfaz web:
+
+- **Fork:** Crea una copia de un repositorio existente en tu propia cuenta de GitHub. Sirve para realizar cambios o experimentos sin afectar el repositorio original, y es el primer paso habitual para contribuir a proyectos de código abierto.
+
+- **Pull Request:** Una vez que has realizado cambios en tu fork o en una rama, un Pull Request es la solicitud formal para que esos cambios sean revisados e integrados al repositorio principal. Permite discutir el código y solicitar revisiones antes de hacer la fusión.
+
+- **Issues:** Sistema de seguimiento de tareas integrado en GitHub. Permite reportar errores, solicitar nuevas funcionalidades o discutir mejoras del proyecto. Los issues pueden enlazarse a Pull Requests para mantener un historial claro de cambios y motivaciones.

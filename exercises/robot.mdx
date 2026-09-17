@@ -1,0 +1,133 @@
+---
+title: "Robot: calcula coordenadas finales en una cuadrícula con C#"
+sidebarTitle: "Robot"
+description: "Ejercicio en C# que simula un robot sobre una cuadrícula: se mueve según un array de pasos y gira 90° en sentido antihorario tras cada secuencia, debido a un fallo de programación."
+---
+
+Este ejercicio simula el movimiento de un robot sobre una cuadrícula de ejes `x` e `y`. Lo que hace especialmente interesante al reto es el **fallo de programación** incorporado en el enunciado: el robot gira 90 grados en sentido antihorario después de cada secuencia de pasos, lo que obliga a rastrear tanto la posición como la dirección actual en todo momento.
+
+## Enunciado
+
+<Note>
+Calcula dónde estará un robot (sus coordenadas finales) que se encuentra en una cuadrícula representada por los ejes "x" e "y".
+
+- El robot comienza en la coordenada (0, 0).
+- Para indicarle que se mueva, le enviamos un array formado por enteros (positivos o negativos) que indican la secuencia de pasos a dar.
+- Si el número de pasos es negativo, se desplazaría en sentido contrario al que está mirando.
+- Los primeros pasos los hace en el eje "y". Se interpreta que está mirando hacia la parte positiva del eje "y".
+- El robot tiene un **fallo en su programación**: cada vez que finaliza una secuencia de pasos gira 90 grados en el sentido contrario a las agujas del reloj.
+
+**Ejemplo:** `[10, 5, -2]` indica que primero se mueve 10 pasos, se detiene, luego 5, se detiene, y finalmente 2.  
+El resultado en este caso sería `(x: -5, y: 12)`.
+</Note>
+
+## Enfoque de Solución
+
+La clase `Robot` mantiene el estado interno mediante tres campos privados: `x`, `y` (coordenadas) y `direccion` (índice en el array `angulo = {"arriba", "izquierda", "abajo", "derecha"}`). El método `mover` itera el array de pasos y, usando un `switch` sobre la dirección actual, suma o resta el valor a la coordenada correspondiente. Tras cada paso llama a `girar()`, que incrementa el índice de dirección en 1 (módulo 4), implementando así la rotación de 90° antihoraria de forma cíclica. El resultado se devuelve como un array `{x, y}`.
+
+<Tip>
+El giro antihorario sigue el orden: **arriba → izquierda → abajo → derecha → arriba**. Observa que en cada dirección el signo del desplazamiento cambia: hacia la izquierda un paso positivo **resta** x, y hacia abajo un paso positivo **resta** y.
+</Tip>
+
+## Código Fuente
+
+```csharp title="Robot.cs"
+/*
+  Calcula dónde estará un robot (sus coordenadas finales) que se
+  encuentra en una cuadrícula representada por los ejes "x" e "y".
+
+  - El robot comienza en la coordenada (0, 0).
+  - Para idicarle que se mueva, le enviamos un array formado por enteros
+    (positivos o negativos) que indican la secuencia de pasos a dar.
+  - Por ejemplo: [10, 5, -2] indica que primero se mueve 10 pasos, se detiene,
+    luego 5, se detiene, y finalmente 2.
+    El resultado en este caso sería (x: -5, y: 12)
+  - Si el número de pasos es negativo, se desplazaría en sentido contrario al
+    que está mirando.
+  - Los primeros pasos los hace en el eje "y". Interpretamos que está mirando
+    hacia la parte positiva del eje "y".
+  - El robot tiene un fallo en su programación: cada vez que finaliza una
+    secuencia de pasos gira 90 grados en el sentido contrario a las agujas
+    del reloj.
+*/
+using System;
+
+public class CoordenadasRobot
+{
+    public static void Main(string[] args)
+    {
+        int[] pasos = {10, 5, -2};
+        Robot robot = new Robot();
+        int[] coordenadas = robot.mover(pasos);
+        Console.WriteLine("La coordenadas finales del Robot son: [{0}, {1}]", coordenadas[0], coordenadas[1]);
+    }
+}
+
+public class Robot {
+    private int x;
+    private int y;
+    private int direccion;
+    private readonly string[] angulo = {"arriba", "izquierda", "abajo", "derecha"};
+    
+    public Robot() {
+        this.x = 0;
+        this.y = 0;
+        this.direccion = 0;
+    }
+    
+    private void girar() {
+        this.direccion = (this.direccion + 1 > 4) ? 0 : this.direccion + 1;
+    }
+    
+    public int[] mover(int[] pasos) {
+        foreach(int paso in pasos) {
+            switch(angulo[this.direccion]) {
+                case "arriba":
+                    this.y += paso;
+                    girar();
+                    break;
+                case "izquierda":
+                    this.x -= paso;
+                    girar();
+                    break;
+                case "abajo":
+                    this.y -= paso;
+                    girar();
+                    break;
+                case "derecha":
+                    this.x += paso;
+                    girar();
+                    break;
+            }
+        }
+        
+        int[] coordenadas = {this.x, this.y};
+        return coordenadas;
+    }
+}
+```
+
+## Cómo Ejecutar
+
+<Steps>
+  <Step title="Instala el SDK de .NET">
+    Descarga e instala el [SDK de .NET](https://dotnet.microsoft.com/download) (versión 6 o superior).
+  </Step>
+  <Step title="Guarda el archivo">
+    Crea un archivo llamado `Robot.cs` y pega el código fuente.
+  </Step>
+  <Step title="Compila y ejecuta">
+    Desde la terminal, ejecuta:
+    ```bash
+    dotnet script Robot.cs
+    ```
+    O compila con `csc Robot.cs` y ejecuta con `mono CoordenadasRobot.exe`.
+  </Step>
+</Steps>
+
+## Conceptos Clave
+
+- **Encapsulación de estado** — la clase `Robot` guarda `x`, `y` y `direccion` como campos privados, exponiendo sólo el método `mover`.
+- **`switch` sobre cadenas** — selecciona la operación de movimiento correcta en función de la dirección actual almacenada como texto.
+- **Rotación cíclica con índice** — `girar()` incrementa el índice de dirección y lo reinicia a 0 cuando supera el límite, modelando el ciclo de los cuatro rumbos.
+- **Pasos negativos** — al sumar un valor negativo, el robot retrocede en la dirección contraria sin necesidad de lógica adicional.

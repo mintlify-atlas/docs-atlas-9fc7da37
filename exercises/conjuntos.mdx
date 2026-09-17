@@ -1,0 +1,87 @@
+---
+title: "Conjuntos: intersección y diferencia de arrays en PHP"
+sidebarTitle: "Conjuntos"
+description: "Implementa intersección y diferencia de arrays en PHP sin funciones nativas, usando solo iteración manual y un booleano para elegir la operación."
+---
+
+Este ejercicio pone a prueba la comprensión de las operaciones básicas sobre conjuntos: dados dos arrays, la función debe ser capaz de devolver los elementos que tienen en común (intersección) o los elementos que no comparten (diferencia). El reto adicional consiste en resolver el problema **sin recurrir a funciones del lenguaje** que lo solucionen directamente, como `array_intersect` o `array_diff`, lo que obliga a pensar en la lógica de comparación de forma explícita.
+
+## Enunciado
+
+<Note>
+  - Crea una función que reciba dos arrays, un booleano y retorne un array.
+  - Si el booleano es **verdadero**, buscará y retornará los elementos **comunes** de los dos arrays.
+  - Si el booleano es **falso**, buscará y retornará los elementos **no comunes** de los dos arrays.
+  - No se pueden utilizar operaciones del lenguaje que lo resuelvan directamente.
+</Note>
+
+## Enfoque de Solución
+
+La función identifica cuál de los dos arrays es el más largo y lo recorre elemento por elemento. Para cada elemento, verifica con `in_array()` si existe en el array más corto: si el booleano es `true`, acumula los elementos que **sí** están presentes en ambos; si es `false`, acumula los que **no** están en el otro array. De esta forma, se simula manualmente la intersección y la diferencia sin delegar la lógica en funciones nativas de conjunto.
+
+## Código Fuente
+
+```php Conjuntos.php
+<?php
+
+/*
+  Crea una función que reciba dos array, un booleano y retorne un array.
+  - Si el booleano es verdadero buscará y retornará los elementos comunes
+    de los dos array.
+  - Si el booleano es falso buscará y retornará los elementos no comunes
+    de los dos array.
+  - No se pueden utilizar operaciones del lenguaje que
+    lo resuelvan directamente.
+ */
+
+ function arrayDiff($a1, $a2, $bool){
+    $rec = []; 
+    $ar = count($a1) > count($a2) ? $a1 : $a2;
+    $ar2 = count($a1) < count($a2) ? $a1 : $a2;
+    
+    foreach($ar as $element){
+        if($bool) {
+            if(in_array($element, $ar2)) {
+                $rec[] = $element;  
+            }
+        } else {
+             if(!in_array($element, $ar2)) {
+                $rec[] = $element;  
+            }
+        }
+    }
+
+    return print_r($rec, true);
+}
+
+$array1 = array("green", "red", "blue", "red");
+$array2 = array("green", "yellow", "red");
+
+echo arrayDiff($array1, $array2, true) . "\n";
+echo arrayDiff($array1, $array2, false) . "\n";
+?>
+```
+
+## Cómo Ejecutar
+
+<Steps>
+  <Step title="Tener PHP instalado">
+    Verifica que PHP esté disponible en tu sistema ejecutando `php -v` en la terminal. Necesitas PHP 7.0 o superior.
+  </Step>
+  <Step title="Guardar el archivo">
+    Copia el código fuente y guárdalo como `Conjuntos.php` en tu directorio de trabajo.
+  </Step>
+  <Step title="Ejecutar el script">
+    Abre una terminal en el directorio donde guardaste el archivo y ejecuta:
+    ```bash
+    php Conjuntos.php
+    ```
+  </Step>
+</Steps>
+
+## Conceptos Clave
+
+- **Iteración sobre arrays**: uso de `foreach` para recorrer colecciones elemento a elemento.
+- **Operador ternario**: selección del array mayor/menor mediante `count()` y el operador `? :`.
+- **Búsqueda lineal**: uso de `in_array()` como alternativa manual a funciones de conjunto nativas.
+- **Parámetros booleanos como interruptores**: un único booleano cambia el comportamiento completo de la función.

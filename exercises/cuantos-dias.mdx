@@ -1,0 +1,89 @@
+---
+title: "Cuántos Días: calcula diferencia entre dos fechas en PHP"
+sidebarTitle: "Cuántos Días"
+description: "Calcula la diferencia absoluta en días entre dos fechas en formato dd/MM/yyyy en PHP, lanzando una excepción si alguna fecha tiene un formato inválido."
+---
+
+Este ejercicio aborda el manejo de fechas y el control de errores en PHP: dadas dos cadenas de texto que representan fechas, la función debe calcular cuántos días las separan y devolver siempre un valor positivo, independientemente del orden en que se pasen los argumentos. Además, si alguna de las cadenas no representa una fecha válida en el formato esperado, el programa debe **lanzar una excepción** en lugar de producir un resultado silencioso e incorrecto.
+
+## Enunciado
+
+<Note>
+  - Crea una función que calcule y retorne cuántos días hay entre dos cadenas de texto que representen fechas.
+  - Una cadena de texto que representa una fecha tiene el formato `"dd/MM/yyyy"`.
+  - La función recibirá dos `String` y retornará un `Int`.
+  - La diferencia en días será **absoluta** (no importa el orden de las fechas).
+  - Si una de las dos cadenas de texto no representa una fecha correcta se lanzará una excepción.
+</Note>
+
+## Enfoque de Solución
+
+La función usa `DateTime::createFromFormat()` para parsear cada cadena al formato `d/m/Y`. Si alguno de los dos objetos resultantes es `false`, significa que el formato era inválido y se lanza una excepción personalizada con `throw new Exception()`. Para calcular la diferencia, las fechas se convierten a timestamps Unix con `strtotime()`, se restan entre sí y el resultado en segundos se divide entre 86 400 (los segundos de un día). Finalmente, se aplica un valor absoluto manual para garantizar que el resultado sea siempre positivo.
+
+## Código Fuente
+
+```php Cuantos_Dias.php
+<?php
+
+/*
+  Crea una función que calcule y retorne cuántos días hay entre dos cadenas
+  de texto que representen fechas.
+  - Una cadena de texto que representa una fecha tiene el formato "dd/MM/yyyy".
+  - La función recibirá dos String y retornará un Int.
+  - La diferencia en días será absoluta (no importa el orden de las fechas).
+  - Si una de las dos cadenas de texto no representa una fecha correcta se
+    lanzará una excepción.
+ */
+ 
+function count_days($f_ini, $f_fin) {
+    try {
+        // Formateamos las cadenas a fechas
+        $f_ini = DateTime::createFromFormat("d/m/Y", $f_ini);
+        $f_fin = DateTime::createFromFormat("d/m/Y", $f_fin);
+        $dias = 0;
+        
+        // Verifica que el formateo fuera el correcto
+        if(!$f_ini || !$f_fin){
+            throw new Exception("Formato de Fecha Incorrecto");
+        }
+        
+        // Convierte las fehcas a tiempo(segundos) para los calculos
+        $dias = strtotime($f_ini->format("Y/m/d")) - strtotime($f_fin->format("Y/m/d"));
+        $dias = ($dias/86400); // 86400 los segundos por dia
+         
+        // Lo hace absoluto
+        return $dias < 0 ? $dias * -1 : $dias;
+    } catch(Exception $e) {
+        // Exception para el formato de las fechas 
+        echo "Error: ", $e->getMessage(), "\n";
+    }
+}
+
+echo count_days("19/09/2024", "1/09/2024") , "\n";
+echo count_days("1909/2024", "1/09/2024"), "\n";
+?>
+```
+
+## Cómo Ejecutar
+
+<Steps>
+  <Step title="Tener PHP instalado">
+    Verifica que PHP esté disponible ejecutando `php -v` en la terminal. Necesitas PHP 7.0 o superior.
+  </Step>
+  <Step title="Guardar el archivo">
+    Copia el código fuente y guárdalo como `Cuantos_Dias.php` en tu directorio de trabajo.
+  </Step>
+  <Step title="Ejecutar el script">
+    Abre una terminal en el directorio donde guardaste el archivo y ejecuta:
+    ```bash
+    php Cuantos_Dias.php
+    ```
+  </Step>
+</Steps>
+
+## Conceptos Clave
+
+- **Manejo de fechas con `DateTime`**: parseo y formateo de cadenas a objetos de fecha con `createFromFormat()`.
+- **Timestamps Unix**: conversión de fechas a segundos para realizar operaciones aritméticas.
+- **Manejo de excepciones**: uso de `try/catch` y `throw new Exception()` para validar entradas inválidas.
+- **Valor absoluto manual**: aplicación del operador ternario para garantizar resultados positivos sin usar `abs()`.

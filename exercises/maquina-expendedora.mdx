@@ -1,0 +1,160 @@
+---
+title: "Máquina Expendedora: simula vending machine con cambio en C#"
+sidebarTitle: "Máquina Expendedora"
+description: "Ejercicio en C# que simula una máquina expendedora: valida monedas, comprueba saldo, dispensa el producto y devuelve el cambio con el menor número de monedas."
+---
+
+Este ejercicio propone modelar el comportamiento completo de una máquina expendedora. Es un excelente reto para practicar la validación de entradas, el trabajo con colecciones y la implementación de un algoritmo voraz (greedy) para calcular el cambio con el menor número de monedas posible.
+
+## Enunciado
+
+<Note>
+Simula el funcionamiento de una máquina expendedora creando una operación que reciba dinero (array de monedas) y un número que indique la selección del producto.
+
+- El programa retornará el nombre del producto y un array con el dinero de vuelta (con el menor número de monedas).
+- Si el dinero es insuficiente o el número de producto no existe, deberá indicarse con un mensaje y retornar todas las monedas.
+- Si no hay dinero de vuelta, el array se retornará vacío.
+- Para que resulte más simple, trabajaremos en céntimos con monedas de **5, 10, 50, 100 y 200**.
+- Debemos controlar que las monedas enviadas estén dentro de las soportadas.
+</Note>
+
+## Enfoque de Solución
+
+La solución se organiza en tres métodos principales. `comprobarDinero` valida que cada moneda del array sea una denominación permitida y que la suma total supere el coste del producto; si alguna condición falla, devuelve `false` sin realizar la transacción. `cambio` aplica un algoritmo voraz: itera las denominaciones de mayor a menor (200, 100, 50, 10, 5) y, por cada una que cabe en el cambio restante, la sustrae y la añade al array de devolución. Finalmente, `artics` actúa como controlador: consulta el `Dictionary<string, Articulos>` con el código de producto, invoca las dos funciones anteriores y muestra el resultado por consola.
+
+## Código Fuente
+
+```csharp title="MaquinaExpendedora.cs"
+/*
+  Simula el funcionamiento de una máquina expendedora creando una operación
+  que reciba dinero (array de monedas) y un número que indique la selección
+  del producto.
+
+  - El programa retornará el nombre del producto y un array con el dinero
+    de vuelta (con el menor número de monedas).
+  - Si el dinero es insuficiente o el número de producto no existe,
+    deberá indicarse con un mensaje y retornar todas las monedas.
+  - Si no hay dinero de vuelta, el array se retornará vacío.
+  - Para que resulte más simple, trabajaremos en céntimos con monedas
+    de 5, 10, 50, 100 y 200.
+  - Debemos controlar que las monedas enviadas estén dentro de las soportadas.
+ */
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public class MaquinaExpendedora
+{
+    class Articulos {
+        public string? name {get; set;}
+        public int cost {get; set;}
+    }
+    
+    public static void Main(string[] args)
+    {
+        //Las monedas que puede tener (Una de Cada) {200, 100, 50, 10, 5};
+        int[] dinero = {200, 100, 10};
+        artics("201", dinero);
+    }
+    
+    static void artics(string code, int[] dinero) {
+        var artics = new Dictionary<string, Articulos>(){
+            {"201", new Articulos {name="Agua", cost=50}},
+            {"202", new Articulos {name="Soda", cost=10}},
+        };
+        
+        string nameArtic = artics[code].name;
+        
+        if(nameArtic != "") {
+            int costP = artics[code].cost;
+            bool result = comprobarDinero(dinero, costP);
+            
+            if(result) {
+                Console.WriteLine($"Compraste un(a) {artics[code].name} por {artics[code].cost}");
+                
+                int[] arrayCambio = cambio(dinero, costP);
+                Console.WriteLine("Tu cambio es: ");
+                foreach(int moneda in arrayCambio) {
+                    Console.Write(moneda + ", ");
+                }
+            }
+            
+        } else {
+            Console.WriteLine("El producto no existe");
+        }
+    }
+    
+    static int[] cambio(int[] dinero, int costP) {
+        int[] monedasAc = {200, 100, 50, 10, 5};
+        int[] arrayCambio = new int[5];
+        int sumaDinero = 0; int i = 0;
+        
+        Array.ForEach(dinero, moneda => sumaDinero += moneda);
+        int cambioTotal = sumaDinero - costP;
+        
+        foreach(int moneda in monedasAc) {
+             if(moneda <= cambioTotal) {
+                cambioTotal -= moneda;
+                arrayCambio[i] = moneda;
+                i++;
+            }
+        }
+        
+        return arrayCambio;
+    }
+    
+    static bool comprobarDinero(int[] dinero, int costP) {
+        int[] monedasAc = {5, 10, 50, 100, 200};
+        int sumaDinero = 0; bool valido = true;
+        
+        Array.ForEach(dinero, 
+            moneda => {
+               bool rec = monedasAc.Contains(moneda);
+               if(!rec) {
+                    Console.WriteLine("Moneda Invalida: {0}", moneda);
+                    valido = false;
+               }
+            }
+        );
+        
+        if (valido) {
+            Array.ForEach(dinero,  moneda => sumaDinero += moneda);
+            
+            if(sumaDinero < costP) {
+                Console.WriteLine("Dinero insuficiente");
+                valido = false;
+            } else if (sumaDinero >= costP) {
+                valido = true;
+            }
+        }
+        
+        return valido;
+    }
+}
+```
+
+## Cómo Ejecutar
+
+<Steps>
+  <Step title="Instala el SDK de .NET">
+    Descarga e instala el [SDK de .NET](https://dotnet.microsoft.com/download) (versión 6 o superior).
+  </Step>
+  <Step title="Guarda el archivo">
+    Crea un archivo llamado `MaquinaExpendedora.cs` y pega el código fuente.
+  </Step>
+  <Step title="Compila y ejecuta">
+    Desde la terminal, ejecuta:
+    ```bash
+    dotnet script MaquinaExpendedora.cs
+    ```
+    O compila con `csc MaquinaExpendedora.cs` y ejecuta con `mono MaquinaExpendedora.exe`.
+  </Step>
+</Steps>
+
+## Conceptos Clave
+
+- **`Dictionary<string, T>`** — catálogo de productos con código como clave y datos del artículo como valor.
+- **Algoritmo voraz (greedy)** — `cambio()` itera denominaciones de mayor a menor para minimizar el número de monedas devueltas.
+- **`Array.ForEach` con lambda** — recorre arrays aplicando una acción en cada elemento, como sumar el saldo total.
+- **Validación de entradas** — `comprobarDinero()` verifica tanto que las monedas sean denominaciones válidas como que el saldo sea suficiente antes de procesar la compra.

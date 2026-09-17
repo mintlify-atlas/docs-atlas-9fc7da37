@@ -1,0 +1,97 @@
+---
+title: "Expresiones Equilibradas: valida paréntesis, llaves y corchetes en PHP"
+sidebarTitle: "Expresiones Equilibradas"
+description: "Verifica si los paréntesis, llaves y corchetes de una expresión están correctamente equilibrados en PHP usando un enfoque de comparación por posición espejo."
+---
+
+Este ejercicio introduce uno de los problemas clásicos del análisis de expresiones: determinar si los delimitadores de agrupación —paréntesis `()`, llaves `{}` y corchetes `[]`— están correctamente abiertos y cerrados en una cadena de texto. Es un problema fundamental en la construcción de compiladores, intérpretes y editores de código. El reto consiste en que los tres tipos de delimitadores tienen la misma prioridad; ninguno es más importante que otro.
+
+## Enunciado
+
+<Note>
+  - Crea un programa que compruebe si los paréntesis, llaves y corchetes de una expresión están equilibrados.
+  - Equilibrado significa que estos delimitadores se abren y cierran en orden y de forma correcta.
+  - Paréntesis, llaves y corchetes son igual de prioritarios; no hay uno más importante que otro.
+  - **Expresión balanceada:** `{ [ a * ( c + d ) ] - 5 }`
+  - **Expresión no balanceada:** `{ a * ( c + d ] - 5 }`
+</Note>
+
+## Enfoque de Solución
+
+La función extrae primero todos los caracteres delimitadores de la expresión y los almacena en un array ordenado. A continuación, utiliza un enfoque de **comparación por posición espejo**: recorre la primera mitad del array y verifica que cada delimitador de apertura tenga su correspondiente cierre en la posición simétrica desde el final, usando un mapa de relaciones `{ → }, [ → ], ( → )`. Si algún par no coincide, la expresión se considera desequilibrada y el programa termina; si todos coinciden, la expresión es válida.
+
+<Tip>
+  El enfoque espejo funciona correctamente para expresiones simétricas anidadas. Para casos más complejos con anidamientos arbitrarios, el patrón estándar de la industria emplea una **pila (stack)**: se apilan los delimitadores de apertura y se verifica que cada cierre coincida con la cima de la pila.
+</Tip>
+
+## Código Fuente
+
+```php Expresiones.php
+<?php
+
+/*
+  Crea un programa que comprueba si los paréntesis, llaves y corchetes
+  de una expresión están equilibrados.
+  - Equilibrado significa que estos delimitadores se abren y cieran
+    en orden y de forma correcta.
+  - Paréntesis, llaves y corchetes son igual de prioritarios.
+    No hay uno más importante que otro.
+  - Expresión balanceada: { [ a * ( c + d ) ] - 5 }
+  - Expresión no balanceada: { a * ( c + d ) ] - 5 }
+ */
+
+function Verificador($expresion) {
+    $caracteres = ["{", "}", "[", "]", "(", ")"];
+    $relacion = ["{" => "}", "[" => "]", "(" => ")"];
+    $guardado = [];
+    
+    for($i = 0; $i < strlen($expresion); $i++) {
+         if (in_array($expresion[$i], $caracteres)) {
+            $guardado[] = $expresion[$i];
+        }
+    }
+    
+    echo print_r($guardado) . "\n";
+    
+    foreach($guardado as $index => $caracter) {
+        if ($index < count($guardado) / 2) {
+            if ($relacion[$caracter] == $guardado[(count($guardado)-1-$index)]) {
+            
+            } else {
+                echo "La expresion no esta equilibrada \n";
+                exit;
+            }
+        }
+    }
+    
+    echo "La ecuacion esta equilibrada \n";
+}
+Verificador("{ [ a * ( c + d ) ] - 5 }");
+Verificador("{ a * ( c + d ) ] - 5 }");
+
+?>
+```
+
+## Cómo Ejecutar
+
+<Steps>
+  <Step title="Tener PHP instalado">
+    Verifica que PHP esté disponible ejecutando `php -v` en la terminal. Necesitas PHP 7.0 o superior.
+  </Step>
+  <Step title="Guardar el archivo">
+    Copia el código fuente y guárdalo como `Expresiones.php` en tu directorio de trabajo.
+  </Step>
+  <Step title="Ejecutar el script">
+    Abre una terminal en el directorio donde guardaste el archivo y ejecuta:
+    ```bash
+    php Expresiones.php
+    ```
+  </Step>
+</Steps>
+
+## Conceptos Clave
+
+- **Arrays asociativos como mapas de relaciones**: uso de un diccionario `apertura → cierre` para definir los pares válidos de delimitadores.
+- **Comparación por índice espejo**: verificación simétrica de posiciones `i` y `n-1-i` para validar el equilibrio.
+- **Filtrado de caracteres con `in_array()`**: extracción selectiva de delimitadores de una cadena arbitraria.
+- **Terminación anticipada con `exit`**: interrupción inmediata del programa al detectar el primer error.

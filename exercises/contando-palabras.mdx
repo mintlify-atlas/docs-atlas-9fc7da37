@@ -1,0 +1,81 @@
+---
+title: "Contando Palabras: cuenta repeticiones de cada palabra en PHP"
+sidebarTitle: "Contando Palabras"
+description: "Cuenta cuántas veces aparece cada palabra en un texto ignorando puntuación y mayúsculas, sin usar funciones automáticas de conteo del lenguaje."
+---
+
+Este ejercicio trabaja el procesamiento de cadenas de texto a nivel léxico: dado un texto libre, el programa debe identificar cada palabra única y contabilizar cuántas veces aparece. El desafío radica en que los signos de puntuación deben ignorarse, el conteo debe ser insensible a mayúsculas y minúsculas, y **no está permitido usar funciones del lenguaje** que resuelvan el conteo de forma automática como `array_count_values`.
+
+## Enunciado
+
+<Note>
+  - Crea un programa que cuente cuántas veces se repite cada palabra y que muestre el recuento final de todas ellas.
+  - Los signos de puntuación **no** forman parte de la palabra.
+  - Una palabra es la misma aunque aparezca en mayúsculas y minúsculas.
+  - No se pueden utilizar funciones propias del lenguaje que lo resuelvan automáticamente.
+</Note>
+
+## Enfoque de Solución
+
+La función primero limpia la cadena de entrada reemplazando todos los caracteres de puntuación por una cadena vacía mediante `str_replace()`. A continuación, divide el texto en un array de palabras usando `explode()` con el espacio como separador. Finalmente, recorre ese array con `foreach` y actualiza manualmente un diccionario asociativo: si la palabra ya existe como clave, incrementa su contador; si no, la inicializa en 1.
+
+## Código Fuente
+
+```php Contando.php
+<?php
+/*
+  Crea un programa que cuente cuantas veces se repite cada palabra
+  y que muestre el recuento final de todas ellas.
+  - Los signos de puntuación no forman parte de la palabra.
+  - Una palabra es la misma aunque aparezca en mayúsculas y minúsculas.
+  - No se pueden utilizar funciones propias del lenguaje que
+    lo resuelvan automáticamente.
+ */
+
+ function contador($cadena) {
+    $contador = [];
+    $caracteres = [",", ".", ";", ":", "'", '"', "{", "}", "(", ")", "?"]; // Caracteres a eliminar o no validos
+    $cadena = str_replace($caracteres, "", $cadena);
+    $cadena = explode(" ", $cadena);
+    
+    echo print_r($cadena, true);
+    
+    foreach($cadena as $palabra) {
+        if (isset($contador[$palabra])) {
+            $contador[$palabra] += 1; 
+        } else {
+            $contador[$palabra] = 1; 
+        }
+    }
+    
+    echo print_r($contador, true);
+}
+
+contador("hola mundo hola hola hola, hola?");
+
+?>
+```
+
+## Cómo Ejecutar
+
+<Steps>
+  <Step title="Tener PHP instalado">
+    Verifica que PHP esté disponible ejecutando `php -v` en la terminal. Necesitas PHP 7.0 o superior.
+  </Step>
+  <Step title="Guardar el archivo">
+    Copia el código fuente y guárdalo como `Contando.php` en tu directorio de trabajo.
+  </Step>
+  <Step title="Ejecutar el script">
+    Abre una terminal en el directorio donde guardaste el archivo y ejecuta:
+    ```bash
+    php Contando.php
+    ```
+  </Step>
+</Steps>
+
+## Conceptos Clave
+
+- **Manipulación de cadenas**: limpieza de texto con `str_replace()` y división con `explode()`.
+- **Arrays asociativos como contadores**: uso de claves de texto para registrar frecuencias manualmente.
+- **Iteración con `foreach`**: recorrido de arrays para acumular resultados paso a paso.
+- **Verificación de claves con `isset()`**: comprobación de la existencia de una clave antes de operar sobre ella.
